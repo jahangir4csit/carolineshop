@@ -10,6 +10,7 @@ API.interceptors.request.use((req)=>{
 })
 
 export const getProducts = ()=> API.get('/products');
+export const productDetails = (id) => API.get(`https://fakestoreapi.com/products/${id}`);
 export const createProduct = (newProduct)=> API.post('/products', newProduct);
 
 export const signIn = (formData) => API.post('/signin', formData);

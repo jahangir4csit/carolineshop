@@ -43,8 +43,8 @@ function App() {
               <Breadcrumb title="Product List" />
               <ProductList />
             </Route>
-            <Route exact path="/product-details/:id">
-              <Breadcrumb title="Details" />
+            <Route exact path="/products/:id">
+              <Breadcrumb title="Product Details" />
               <ProductDetails />
             </Route>
             <Route exact path="/cart">
