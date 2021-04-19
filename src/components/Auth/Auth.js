@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -15,7 +15,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useHistory } from 'react-router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signin, signup } from '../../store/actions/auth'
 
 function TabPanel(props) {
@@ -108,15 +108,24 @@ function TabPanel(props) {
 
   const initialData = { email: '', password: '', }
 
-export default function Auth() {
+  
+
+const Auth = () => {
     const classes = useStyles();
     const theme = useTheme();
 
     // Auth process
+    const { isAuthenticated, loading, error } = useSelector( state => state.authStore );
     const dispatch = useDispatch();
     const history = useHistory();
     const [formData, setFormData] = useState(initialData);
-    console.log(formData, 'signin form data')
+    console.log(isAuthenticated, 'auth form data')
+
+    useEffect(() => {
+      if(isAuthenticated){
+        history.push('/');
+      }
+    },[dispatch, isAuthenticated, error, history])
     
     const handleSignIn = (event) => {
         event.preventDefault();
@@ -306,3 +315,4 @@ export default function Auth() {
         </div>
       );
 }
+export default Auth;

@@ -17,6 +17,7 @@ import CreateProduct from './components/axios/CreateProduct';
 import EditProduct from './components/axios/EditProduct';
 import Auth from './components/Auth/Auth';
 import Dashboard from './components/admin/Dashboard';
+import ProtectedRoute from './components/route/ProtectedRoute';
 
 import './App.css';
 import useStyles from './styles'; 
@@ -63,10 +64,7 @@ function App() {
               <Breadcrumb title="My Account" />
               <Auth />
             </Route>
-            <Route exact path="/dashboard">
-              <Breadcrumb title="Dashboard" />
-              <Dashboard />
-            </Route>
+            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
             <Route path='*'>
               <Page404 />
             </Route>

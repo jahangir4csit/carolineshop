@@ -78,7 +78,7 @@ const ProductDetails = () =>{
         
     return(
         <Fragment>
-            {loading ? <Loader /> : product == null ? 'Sorry, Product Not Found' : (
+            {loading ? <Loader /> : product === null ? 'Sorry, Product Not Found' : (
                <Fragment>
                    <div className="product_details my60">
                         <Container className={classes.productDetails} maxWidth="lg">

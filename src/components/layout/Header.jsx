@@ -243,6 +243,7 @@ export default function Header(){
         <Tab className={classes.tab} component={Link} to="/categories" label="Categories" />
         <Tab className={classes.tab} component={Link} to="/cart" label="My Cart" />
         <Tab className={classes.tab} component={Link} to="/auth" label="My Account" />
+        <Tab className={classes.tab} component={Link} to="/dashboard" label="Dashboard" />
         <Tab className={classes.tab} component={Link} to="/about" label="About" />
         <Tab className={classes.tab} component={Link} to="/contact" label="Contact" />
       </Tabs>
@@ -309,19 +310,28 @@ export default function Header(){
           <ListItem 
           className={classes.drawerItem} 
           onClick={()=> {setOpenDrawer(false); setValue(5)}}  
-          component={Link} to="/about"
+          component={Link} to="/dashboard"
           selected={value === 5}>
             <ListItemText 
             className={value===5 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
+            disableTypography>Dashboard</ListItemText>
+          </ListItem>
+          <ListItem 
+          className={classes.drawerItem} 
+          onClick={()=> {setOpenDrawer(false); setValue(6)}}  
+          component={Link} to="/about"
+          selected={value === 6}>
+            <ListItemText 
+            className={value===6 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
             disableTypography>About</ListItemText>
           </ListItem>
           <ListItem 
           className={classes.drawerItem} 
-          onClick={()=> {setOpenDrawer(false); setValue(6)}} 
+          onClick={()=> {setOpenDrawer(false); setValue(7)}} 
           component={Link} to="/contact"
-          selected={value === 6}>
+          selected={value === 7}>
             <ListItemText
-            className={value===6 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
+            className={value===7 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
             disableTypography>Contact</ListItemText>
           </ListItem>
         </List>
