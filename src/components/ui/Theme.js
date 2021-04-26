@@ -1,19 +1,42 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 const brand = '#FF8E78';
 const black = '#000';
+const green = 'rgb(0, 171, 85)';
+const yollow = 'rgb(255, 193, 7)';
+const blue = '#7978E9';
+const red = '#F3797E';
 const font = 'roboto,Arial,sans-serif';
-export default createMuiTheme({
 
+
+export default createMuiTheme({
+    status: {
+        danger: '#e53e3e',
+    },
     palette: {
         common: {
             orange: `${brand}`,
+            green: `${green}`,
         },
         primary: {
             main: `${brand}`,
+            contrastText: '#fff',
         },
         secondary: {
             main: `${black}`,
         },
+        success: {
+            main: `${green}`,
+        },
+        warning: {
+            main: `${yollow}`,
+        },
+        danger: {
+            main: `${red}`,
+        },
+        progress: {
+            main: `${blue}`,
+        }
+
     },
     typography: {
         fontSize: '1.5rem',

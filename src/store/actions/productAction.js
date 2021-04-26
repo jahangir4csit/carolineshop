@@ -1,17 +1,30 @@
 import * as api from '../../api';
+import axios from 'axios';
 import { 
-    GET_ALL_PRODUCTS, 
+    GET_ALL_PRODUCTS,
+    ALL_PRODUCTS_REQUEST, 
     CREATE_PRODUCT, 
     GET_SELECTED_PRODUCT,
     REQUEST_SELECTED_PRODUCT,
     SELECTED_PRODUCT_FAIL, 
-    ALL_PRODUCTS_FAIL
+    ALL_PRODUCTS_FAIL,
+
+    NEW_PRODUCT_REQUEST,
+    NEW_PRODUCT_SUCCESS,
+    NEW_PRODUCT_FAIL,
+
+    NEW_CATEGORY_REQUEST,
+    NEW_CATEGORY_SUCCESS,
+    NEW_CATEGORY_FAIL,
  } 
     from '../../constants/actionTypes.js';
 
+// **** Collection: Frontend Actions  **** 
+// Product List Action 
 export const getProducts = () => async (dispatch) => {
+    dispatch({ type: ALL_PRODUCTS_REQUEST })
     try{
-        const { data } = await api.getProducts()
+        const { data } = await api.getProducts();
         dispatch({ type: GET_ALL_PRODUCTS, payload: data })
     }
     catch(error){
@@ -22,26 +35,64 @@ export const getProducts = () => async (dispatch) => {
     }
 }
 
-export const createProduct = (post) => async (dispatch) => {
+// Product Details Action
+export const getProductDetails = (productId) => async (dispatch) => {
+    dispatch({ type: REQUEST_SELECTED_PRODUCT, payload: productId })
     try{
-        const { data } = await api.createProduct(post)
-        dispatch({ type: CREATE_PRODUCT, payload: data })
-    }
-    catch(error){
-        console.log(error)
-    }
-}
-
-export const getProductDetails = (id) => async (dispatch) => {
-    try{
-        dispatch({ type: REQUEST_SELECTED_PRODUCT})
-        const { data } = await api.productDetails(id);
+        const { data } = await api.productDetails(productId);
         dispatch({ type: GET_SELECTED_PRODUCT, payload: data })
     }
     catch(error){
         dispatch({ 
             type: SELECTED_PRODUCT_FAIL, 
             payload: error.response.data.message,
+        })
+    }
+}
+
+
+// **** Collection: Admin Actions  **** 
+
+// Create Product Action
+export const newProduct = (productData, token) => async (dispatch) => {
+    dispatch({ type: NEW_PRODUCT_REQUEST })
+    try{
+        const config = {
+            headers: {
+                Accept: "application/json",
+                "Content-Type" : "application/json",
+                Authorization: `bearer ${token}`,
+            }
+        }
+        const { data } = await axios.post('http://localhost:8080/products', productData, config);
+        dispatch({ type: NEW_PRODUCT_SUCCESS, payload: data })
+    }
+    catch(error){
+        dispatch({ 
+            type: NEW_PRODUCT_FAIL, 
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Create Category Action
+export const newCategory = (productData, token) => async (dispatch) => {
+    dispatch({ type: NEW_CATEGORY_REQUEST})
+    try{
+        const config = {
+            headers: {
+                Accept: "application/json",
+                "Content-Type" : "application/json",
+                Authorization: `bearer ${token}`,
+            }
+        }
+        const { data } = await axios.post('http://localhost:8080/category', productData, config);
+        dispatch({ type: NEW_CATEGORY_SUCCESS, payload: data })
+    }
+    catch(error){
+        dispatch({ 
+            type: NEW_CATEGORY_FAIL, 
+            payload: error.response.data.message
         })
     }
 }

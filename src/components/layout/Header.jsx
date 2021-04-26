@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Link, useHistory, useLocation} from "react-router-dom";
 import logo from '../../logo.svg';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
@@ -46,137 +45,46 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import PinterestIcon from '@material-ui/icons/Pinterest';
 import YouTubeIcon from '@material-ui/icons/YouTube';
+import { logout } from '../../store/actions/authAction';
+import { useSnackbar } from 'notistack';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    backgroundColor: '#fff',
-  },
-  toolbarTop: {
-    backgroundColor: '#211f1f',
-    padding: '6px 25px',
-    position: 'relative',
-    minHeight: 'auto',
-    '& p':{
-      color: '#fff',
-      fontSize: '14px',
-      textTransform: 'uppercase',
-      marginBottom: '0',
-      '& small':{
-        fontWeight: '400',
-        fontSize: '14px',
-        textTransform: 'none',
-      }
-    },
-  },
-  contact: {
-    color: '#fff',
-    fontSize: '13px',
-    '& span': {
-      marginLeft: '5px',
-    },
-    [theme.breakpoints.down("sm")]: {
-      justifyContent: 'center',
-    },
-  },
-  socialLink: {
-    '& a': {
-      color: '#fff',
-      fontSize: '17px',
-      margin: '0 5px',
-      '&:hover':{
-        color: theme.palette.primary.main,
-      },
-    },
-    [theme.breakpoints.down("sm")]: {
-      textAlign: 'center',
-    }
-  },
-  tabContainer: {
-    background: 'transparent',
-    border: 0,
-    marginLeft: 'auto',
-    paddingTop: '28px',
-    paddingBottom: '28px',
-  },
-  tab: {
-    color: '#000',
-    opacity: 1,
-    '&:hover': {
-      color: theme.palette.primary.main,
-    },
-    '&:focus': {
-      color: theme.palette.primary.main,
-    }
-  },
-  cartNav: {
-    '& button':{
-      '&:hover': {
-        color: theme.palette.primary.main,
-        background: 'transparent',
-      },
-      '&:focus': {
-        color: theme.palette.primary.main,
-        background: 'transparent',
-      }
-    },
-    '& svg': {
-      fontSize: '26px',
-    },
-  },
-  badge: {
-    '& span': {
-      color: '#fff',
-    }
-  },
-  mainNavContainer: {
-    [theme.breakpoints.down("sm")]: {
-      paddingTop: '12px',
-      paddingBottom: '12px'
-    },
-  },
-  mainNav: {
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: 'row-reverse',
-    },
-  },
-  navContainer: {
-    [theme.breakpoints.down("sm")]: {
-      justifyContent: 'flex-end',
-    },
-  },
-  paper: {
-    marginRight: theme.spacing(2),
-  },
-  userprofile: {
-    left: '-15px!important',
-    zIndex: '111111'
-  }
-}));
+import useStyles from './styles'; 
 
 export default function Header(){
 
-  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('user')));
+  const classes = useStyles();
+  const theme = useTheme();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const { isAuthenticated, loading, userInfo, error } = useSelector( state => state.auth );
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('userInfo')));
   console.log(user, 'Session User');
 
   const cartReducer = useSelector((state)=> state);
   const cartItem = cartReducer.cartStore.cart;
   const addedItem = cartItem.map((item)=> <MenuItem>{item.name} - Price: {item.price}</MenuItem> );
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const location = useLocation();
+
+  const handleClickVariant = (variant) => {
+    enqueueSnackbar('Logged Out Successfully', { variant });
+  };
 
   // user Logout process
-  const logout = () => {
-    dispatch({ type: 'LOGOUT' });
+  const logoutHandler = () => {
+    dispatch(logout());
+    handleClickVariant('success');
     history.push('/');
-    setUser(null);
+    //setOpenProfile(false);
   };
 
   useEffect(()=>{
     const token = user?.token;
-    setUser(JSON.parse(sessionStorage.getItem('user')));
+    setUser(JSON.parse(sessionStorage.getItem('userInfo')));
   },[location]);
+
+  // userInfo 
 
   // User profile nav
   const [openProfile, setOpenProfile] = React.useState(false);
@@ -229,8 +137,6 @@ export default function Header(){
     history.push('/cart/');
   };
 
-  const classes = useStyles();
-  const theme = useTheme();
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const [openDrawer, setOpenDrawer] = useState(false);
@@ -241,9 +147,7 @@ export default function Header(){
         <Tab className={classes.tab} component={Link} to="/" label="Home" />
         <Tab className={classes.tab} component={Link} to="/shop" label="Shop" />
         <Tab className={classes.tab} component={Link} to="/categories" label="Categories" />
-        <Tab className={classes.tab} component={Link} to="/cart" label="My Cart" />
-        <Tab className={classes.tab} component={Link} to="/auth" label="My Account" />
-        <Tab className={classes.tab} component={Link} to="/dashboard" label="Dashboard" />
+        <Tab className={classes.tab} component={Link} to="/admin/dashboard" label="Dashboard" />
         <Tab className={classes.tab} component={Link} to="/about" label="About" />
         <Tab className={classes.tab} component={Link} to="/contact" label="Contact" />
       </Tabs>
@@ -310,7 +214,7 @@ export default function Header(){
           <ListItem 
           className={classes.drawerItem} 
           onClick={()=> {setOpenDrawer(false); setValue(5)}}  
-          component={Link} to="/dashboard"
+          component={Link} to="/admin/dashboard"
           selected={value === 5}>
             <ListItemText 
             className={value===5 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
@@ -345,6 +249,7 @@ export default function Header(){
   const trigger = useScrollTrigger();
 
     return(
+      <Fragment>
         <AppBar position="static" className={classes.root}>
           <Toolbar component="div" className={classes.toolbarTop}>
             <Grid container direction="row" justify="center" alignItems="center">
@@ -433,7 +338,7 @@ export default function Header(){
                         </Menu>
                       </Grid>
 
-                      {user ? (
+                      {userInfo ? (
 
                       <Grid item>
                         <IconButton 
@@ -478,8 +383,7 @@ export default function Header(){
                                       <Typography variant="inherit">Shipping Details</Typography>
                                     </MenuItem>
                                     <MenuItem 
-                                    onClick={handleCloseProfileNav}
-                                    component={Link} to="/auth" onClick={logout}>
+                                    onClick={logoutHandler} >
                                       <ListItemIcon style={{minWidth: '40px'}}>
                                         <PowerSettingsNewOutlinedIcon fontSize="small" />
                                       </ListItemIcon>
@@ -493,9 +397,14 @@ export default function Header(){
                         </Popper>
                       </Grid>
 
-                      ) : (
-                        <Button component={Link} to="/auth" variant="contained">Log In</Button>
-                      )}
+                      ) : !loading && 
+                        <IconButton 
+                          aria-label="show user icon" 
+                          component={Link} 
+                          to="/auth">
+                          <PermIdentityOutlinedIcon />
+                        </IconButton>
+                      }
                     </Grid>
                   </Grid>
                 </Grid>
@@ -505,5 +414,6 @@ export default function Header(){
           </Toolbar>
       
         </AppBar>
+      </Fragment>
     )
 }

@@ -1,8 +1,6 @@
 import React from 'react';
-import {Link, useHistory} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Ratings from '../ui/Ratings';
-import { makeStyles } from '@material-ui/core/styles';
-
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -10,37 +8,17 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
-
-const useStyles = makeStyles((theme) => ({
-    cardMedia: {
-        height: 0,
-        paddingTop: '88%', // 16:9
-    },
-    productAction: {
-        paddingTop: 0,
-        paddingBottom: 0,
-        position: 'relative',
-    },
-    CartButton: {
-        textTransform: 'none',
-    }
-  }));
+import useStyles from './styles'; 
   
 const Product = ({ product }) =>{
     const classes = useStyles();
 
-    const history = useHistory();
-    const clickHandlar = (id)=>{
-        history.push(`/products/${id}`);
-    }
-
     return(
         <Grid item xs={12} sm={6} md={4} >
-            <Card className="product mt40" key={product.id}>
+            <Card className="product mt40" key={product._id}>
                 <div className="thumb">
                     <CardMedia
                         className={classes.cardMedia}
@@ -54,7 +32,7 @@ const Product = ({ product }) =>{
                             <Link href="#"><FavoriteBorderOutlinedIcon style={{ fontSize: '28px'}} /></Link>
                         </li>
                         <li>
-                            <Link href="#" onClick={() => clickHandlar(product.id)}><VisibilityOutlinedIcon /></Link>
+                            <Link to={`/products/${product._id}`} ><VisibilityOutlinedIcon /></Link>
                         </li>
                     </ul>
                 </div>
@@ -64,7 +42,7 @@ const Product = ({ product }) =>{
                     </Typography>
                     <Ratings />
                     <Typography gutterBottom component="h6" className="title stone-go-top">
-                        <Link onClick={() => clickHandlar(product.id)}>{product.title}</Link>
+                    <Link to={`/products/${product._id}`} >{product.title}</Link>
                     </Typography>
                 </CardContent>
                 <CardActions className={classes.productAction}>
