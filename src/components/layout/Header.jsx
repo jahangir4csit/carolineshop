@@ -46,7 +46,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import PinterestIcon from '@material-ui/icons/Pinterest';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import { logout } from '../../store/actions/authAction';
-import { useSnackbar } from 'notistack';
+import { setSnackbar } from "../../store/reducers/snackbarReducer";
 
 import useStyles from './styles'; 
 
@@ -57,7 +57,6 @@ export default function Header(){
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
-  const { enqueueSnackbar } = useSnackbar();
 
   const { isAuthenticated, loading, userInfo, error } = useSelector( state => state.auth );
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('userInfo')));
@@ -67,14 +66,11 @@ export default function Header(){
   const cartItem = cartReducer.cartStore.cart;
   const addedItem = cartItem.map((item)=> <MenuItem>{item.name} - Price: {item.price}</MenuItem> );
 
-  const handleClickVariant = (variant) => {
-    enqueueSnackbar('Logged Out Successfully', { variant });
-  };
 
   // user Logout process
   const logoutHandler = () => {
     dispatch(logout());
-    handleClickVariant('success');
+    dispatch(setSnackbar(true,"success","Logged Out Successfully"));
     history.push('/');
     //setOpenProfile(false);
   };

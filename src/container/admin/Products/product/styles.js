@@ -9,5 +9,9 @@ export default makeStyles((theme)=>({
             marginBottom: theme.spacing(2),
         },
     },
+    formControl: {
+        marginBottom: theme.spacing(4),
+        minWidth: 230,
+      },
 
 }));

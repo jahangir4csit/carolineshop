@@ -14,16 +14,22 @@ import {
     NEW_CATEGORY_SUCCESS,
     NEW_CATEGORY_FAIL,
 
+    ALL_CATEGORY_REQUEST,
+    ALL_CATEGORY_SUCCESS,
+    ALL_CATEGORY_FAIL,
+    NEW_CATEGORY_RESET,
+
  } 
     from '../../constants/actionTypes.js';
 
 const initial = {
     products: [],
     product: {},
+    categories: [],
     category: {},
     loading: true,
-    error: {},
-    success: {}
+    error: null,
+    success: false,
 };
 
 // **** Collection: Frontend Reducers  ****
@@ -90,8 +96,9 @@ export const NewProductReducer = (state = initial, action)=>{
             return {
                     loading: false,
                     ...state,
-                    success: action.payload.success,
-                    product: action.payload
+                    product: action.payload,
+                    success: true,
+                    error: null
                 };
         case NEW_PRODUCT_FAIL: 
                 return {
@@ -116,12 +123,41 @@ export const NewCategoryReducer = (state = initial, action)=>{
             return {
                     loading: false,
                     ...state,
-                    success: action.payload.success,
-                    category: action.payload
+                    category: action.payload,
+                    success: true,
+                    error: null,
                 };
+        case NEW_CATEGORY_RESET: 
+                return{
+                    success: false
+                }
         case NEW_CATEGORY_FAIL: 
                 return {
                     ...state,
+                    error: action.payload
+                };
+        default: 
+            return state;
+    }
+}
+
+
+// Categories Reducer
+export const categoriesReducer = (state=initial, action)=>{
+    switch(action.type){
+        case ALL_CATEGORY_REQUEST:
+            return {
+                    loading: true,
+                    categories: []
+                };
+        case ALL_CATEGORY_SUCCESS:
+            return {
+                    loading: false,
+                    categories: action.payload
+                };
+        case ALL_CATEGORY_FAIL: 
+                return {
+                    loading: false,
                     error: action.payload
                 };
         default: 

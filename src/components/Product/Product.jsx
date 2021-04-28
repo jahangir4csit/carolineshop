@@ -15,14 +15,15 @@ import useStyles from './styles';
   
 const Product = ({ product }) =>{
     const classes = useStyles();
+    const baseUrl = 'http://localhost:8080';
 
     return(
-        <Grid item xs={12} sm={6} md={4} >
+        <Grid item xs={12} sm={4} md={3} >
             <Card className="product mt40" key={product._id}>
                 <div className="thumb">
                     <CardMedia
                         className={classes.cardMedia}
-                        image={product.image}
+                        image={baseUrl + product.image}
                         title={product.title}
                     />
                     <Typography component="span" className="sale">SALE 13% </Typography>
@@ -38,7 +39,7 @@ const Product = ({ product }) =>{
                 </div>
                 <CardContent className="content text-left">
                     <Typography gutterBottom component="span" className="brand">
-                        CATEGORY:{product.category}
+                        CATEGORY:{product.category.name}
                     </Typography>
                     <Ratings />
                     <Typography gutterBottom component="h6" className="title stone-go-top">

@@ -1,7 +1,14 @@
 import {combineReducers} from 'redux';
 import CartReducer from './cartReducer';
-import {productsReducer, productDetailsReducer, NewProductReducer, NewCategoryReducer } from './productsReducer';
-import {authReducer} from './authReducer'; 
+import {
+    productsReducer, 
+    productDetailsReducer, 
+    NewProductReducer, 
+    NewCategoryReducer, 
+    categoriesReducer,
+    } from './productsReducer';
+import {authReducer} from './authReducer';
+import {snackbarReducer} from "./snackbarReducer"; 
 
 export const initialState = {
     auth: {
@@ -16,5 +23,7 @@ export const mainReducer = combineReducers({
     productDetails: productDetailsReducer,
     newProduct: NewProductReducer,
     newCategory: NewCategoryReducer,
+    categories: categoriesReducer,
     auth: authReducer,
+    snackbar: snackbarReducer,
 })

@@ -37,6 +37,7 @@ import useStyles from './styles';
 
 const Products = () => {
     const classes = useStyles();
+    const baseUrl = 'http://localhost:8080';
     const { loading, products, error } = useSelector((state)=> state.productList);
 
     // Get Products
@@ -45,7 +46,6 @@ const Products = () => {
         dispatch(getProducts());
     }, [dispatch])
 
-
 function createData(productImg, product, created, status, price, action) {
     return { productImg, product, created, status, price, action };
   }
@@ -53,7 +53,7 @@ function createData(productImg, product, created, status, price, action) {
   const status = <Badge badgeContent={'In Stock'} className="badge success" />;
   const rows = [];
   for (let i = 0; i < products.length; i++) {
-    rows.push(createData(products[i].image, products[i].title, products[i].category, status, products[i].price, 'Edit | Delete'))
+    rows.push(createData(products[i].image, products[i].title, products[i].category.name, status, products[i].price, 'Edit | Delete'))
 } 
 
   function descendingComparator(a, b, orderBy) {
@@ -389,7 +389,7 @@ function createData(productImg, product, created, status, price, action) {
                                                         <TableCell component="th" id={labelId} scope="row" padding="none">
                                                             <Box display="flex">
                                                                 <Box p={1}>
-                                                                    <img className={classes.rowProductImg} align="left" src={row.productImg} alt={row.product} />
+                                                                    <img className={classes.rowProductImg} align="left" src={ baseUrl + row.productImg } alt={row.product} />
                                                                 </Box>
                                                                 <Box alignSelf="center">
                                                                     {row.product}

@@ -17,7 +17,7 @@ import Loader from '../../components/ui/Loader';
 import { useHistory } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { signin, signup } from '../../store/actions/authAction';
-import { useSnackbar } from 'notistack';
+import { setSnackbar } from "../../store/reducers/snackbarReducer";
 import useStyles from './styles';
 
 function TabPanel(props) {
@@ -81,7 +81,6 @@ function TabPanel(props) {
 const Auth = () => {
     const classes = useStyles();
     const theme = useTheme();
-    const { enqueueSnackbar } = useSnackbar();
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -91,20 +90,15 @@ const Auth = () => {
     const [formData, setFormData] = useState(initialData);
 
     // Auth process
-    const { isAuthenticated, loading, error, userInfo } = useSelector( state => state.auth );
-    
-    const handleClickVariant = (variant) => {
-      let message = error ? error.message : userInfo ? userInfo.message : 'Error';
-      enqueueSnackbar(message, { variant });
-    };
+    const { isAuthenticated, loading, error } = useSelector( state => state.auth );
 
     useEffect(() => {
       if(isAuthenticated){
+        dispatch(setSnackbar(true,"success","Logged in Successfully"));
         history.push('/');
-        handleClickVariant('success');
       }
       if(error){
-        handleClickVariant('error');
+        dispatch(setSnackbar(true,"error","Logged in Failed"));
       }
     },[dispatch, isAuthenticated, error, history])
     

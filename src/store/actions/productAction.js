@@ -3,7 +3,6 @@ import axios from 'axios';
 import { 
     GET_ALL_PRODUCTS,
     ALL_PRODUCTS_REQUEST, 
-    CREATE_PRODUCT, 
     GET_SELECTED_PRODUCT,
     REQUEST_SELECTED_PRODUCT,
     SELECTED_PRODUCT_FAIL, 
@@ -16,6 +15,11 @@ import {
     NEW_CATEGORY_REQUEST,
     NEW_CATEGORY_SUCCESS,
     NEW_CATEGORY_FAIL,
+    NEW_CATEGORY_RESET,
+
+    ALL_CATEGORY_REQUEST,
+    ALL_CATEGORY_SUCCESS,
+    ALL_CATEGORY_FAIL,
  } 
     from '../../constants/actionTypes.js';
 
@@ -59,9 +63,9 @@ export const newProduct = (productData, token) => async (dispatch) => {
     try{
         const config = {
             headers: {
-                Accept: "application/json",
+                "Accept": "application/json",
                 "Content-Type" : "application/json",
-                Authorization: `bearer ${token}`,
+                "Authorization" : `bearer ${token}`,
             }
         }
         const { data } = await axios.post('http://localhost:8080/products', productData, config);
@@ -81,17 +85,33 @@ export const newCategory = (productData, token) => async (dispatch) => {
     try{
         const config = {
             headers: {
-                Accept: "application/json",
+                "Accept": "application/json",
                 "Content-Type" : "application/json",
-                Authorization: `bearer ${token}`,
+                "Authorization" : `bearer ${token}`,
             }
         }
         const { data } = await axios.post('http://localhost:8080/category', productData, config);
         dispatch({ type: NEW_CATEGORY_SUCCESS, payload: data })
+        dispatch({ type: NEW_CATEGORY_RESET })
     }
     catch(error){
         dispatch({ 
             type: NEW_CATEGORY_FAIL, 
+            payload: error.response.data.message
+        })
+    }
+}
+
+// Category List Action 
+export const getCategories = () => async (dispatch) => {
+    dispatch({ type: ALL_CATEGORY_REQUEST })
+    try{
+        const { data } = await api.getCategories();
+        dispatch({ type: ALL_CATEGORY_SUCCESS, payload: data })
+    }
+    catch(error){
+        dispatch({ 
+            type: ALL_CATEGORY_FAIL, 
             payload: error.response.data.message
         })
     }

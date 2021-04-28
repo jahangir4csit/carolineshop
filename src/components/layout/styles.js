@@ -62,6 +62,7 @@ export default makeStyles((theme)=>({
       }
     },
     cartNav: {
+      color: '#000',
       '& button':{
         '&:hover': {
           color: theme.palette.primary.main,
