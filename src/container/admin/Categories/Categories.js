@@ -11,7 +11,7 @@ import Sidebar from '../Layouts/Sidebar/Sidebar';
 import useStyles from './styles';
 import DataTable from './dataTable'; 
 
-import {getCategories} from '../../../store/actions/productAction';
+import {getCategories} from '../../../store/actions/categoryAction';
 
 const Categories = () => {
     const classes = useStyles();
@@ -44,7 +44,7 @@ const Categories = () => {
                                             <Button
                                             variant="contained"
                                             className="createButton"
-                                            component={Link} to="/admin/addcategory/create"
+                                            component={Link} to="/admin/category/create"
                                             startIcon={<AddOutlinedIcon />}
                                             >
                                                 Create Category

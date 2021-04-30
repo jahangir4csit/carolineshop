@@ -38,6 +38,7 @@ import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined'
 import AddShoppingCartOutlinedIcon from '@material-ui/icons/AddShoppingCartOutlined';
 import LocalShippingOutlinedIcon from '@material-ui/icons/LocalShippingOutlined';
 import PowerSettingsNewOutlinedIcon from '@material-ui/icons/PowerSettingsNewOutlined';
+import AvTimerOutlinedIcon from '@material-ui/icons/AvTimerOutlined';
 
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
@@ -60,12 +61,10 @@ export default function Header(){
 
   const { isAuthenticated, loading, userInfo, error } = useSelector( state => state.auth );
   const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('userInfo')));
-  console.log(user, 'Session User');
 
   const cartReducer = useSelector((state)=> state);
   const cartItem = cartReducer.cartStore.cart;
   const addedItem = cartItem.map((item)=> <MenuItem>{item.name} - Price: {item.price}</MenuItem> );
-
 
   // user Logout process
   const logoutHandler = () => {
@@ -143,7 +142,6 @@ export default function Header(){
         <Tab className={classes.tab} component={Link} to="/" label="Home" />
         <Tab className={classes.tab} component={Link} to="/shop" label="Shop" />
         <Tab className={classes.tab} component={Link} to="/categories" label="Categories" />
-        <Tab className={classes.tab} component={Link} to="/admin/dashboard" label="Dashboard" />
         <Tab className={classes.tab} component={Link} to="/about" label="About" />
         <Tab className={classes.tab} component={Link} to="/contact" label="Contact" />
       </Tabs>
@@ -210,28 +208,19 @@ export default function Header(){
           <ListItem 
           className={classes.drawerItem} 
           onClick={()=> {setOpenDrawer(false); setValue(5)}}  
-          component={Link} to="/admin/dashboard"
+          component={Link} to="/about"
           selected={value === 5}>
             <ListItemText 
             className={value===5 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
-            disableTypography>Dashboard</ListItemText>
-          </ListItem>
-          <ListItem 
-          className={classes.drawerItem} 
-          onClick={()=> {setOpenDrawer(false); setValue(6)}}  
-          component={Link} to="/about"
-          selected={value === 6}>
-            <ListItemText 
-            className={value===6 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
             disableTypography>About</ListItemText>
           </ListItem>
           <ListItem 
           className={classes.drawerItem} 
-          onClick={()=> {setOpenDrawer(false); setValue(7)}} 
+          onClick={()=> {setOpenDrawer(false); setValue(6)}} 
           component={Link} to="/contact"
-          selected={value === 7}>
+          selected={value === 6}>
             <ListItemText
-            className={value===7 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
+            className={value===6 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
             disableTypography>Contact</ListItemText>
           </ListItem>
         </List>
@@ -241,8 +230,6 @@ export default function Header(){
       </IconButton>
     </React.Fragment>
   )
-
-  const trigger = useScrollTrigger();
 
     return(
       <Fragment>
@@ -357,6 +344,16 @@ export default function Header(){
                               <Paper>
                                 <ClickAwayListener onClickAway={handleCloseProfileNav}>
                                   <MenuList autoFocusItem={openProfile} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+
+                                  {userInfo && userInfo.userInfo.role == 'admin' && (
+                                    <MenuItem onClick={handleCloseProfileNav}
+                                      component={Link} to="admin/dashboard">
+                                      <ListItemIcon style={{minWidth: '40px'}}>
+                                        <AvTimerOutlinedIcon fontSize="small" />
+                                      </ListItemIcon>
+                                      <Typography variant="inherit">Dashboard</Typography>
+                                    </MenuItem>
+                                  )}
                                     <MenuItem onClick={handleCloseProfileNav}
                                     component={Link} to="/myaccount">
                                       <ListItemIcon style={{minWidth: '40px'}}>

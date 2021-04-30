@@ -13,6 +13,8 @@ export const getProducts = ()=> API.get('/products');
 export const productDetails = (productId) => API.get(`/products/${productId}`);
 export const createProduct = (newProduct)=> API.post('/products', newProduct);
 
+export const getCategoryDetails = (categoryId) => API.get(`/category/${categoryId}`);
+
 export const getCategories = ()=> API.get('/category');
 
 export const signIn = (data) => API.post('/signin', data);

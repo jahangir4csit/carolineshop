@@ -68,10 +68,6 @@ const Sidebar = () => {
         setValue(value)
     }
 
-    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
-    const matches = useMediaQuery(theme.breakpoints.down('sm'));
-    const [openDrawer, setOpenDrawer] = useState(false);
-
     const tabs = (
         <React.Fragment>
           <Tabs 
@@ -89,68 +85,6 @@ const Sidebar = () => {
           </Tabs>
         </React.Fragment>
     )
-    const drawer = (
-        <React.Fragment>
-          <SwipeableDrawer 
-          disableBackdropTransition={!iOS} 
-          disableDiscovery={iOS} 
-          open={openDrawer}
-          onClose={()=>setOpenDrawer(false)} 
-          onOpen={()=>setOpenDrawer(true)}
-          classes={{paper: classes.drawerWrap}}>
-            <List disablePadding>
-              <ListItem 
-              className={classes.drawerItem} 
-              onClick={()=> {setOpenDrawer(false); setValue(0)}} 
-              component={Link} to="/admin/dashboard"
-              selected={value === 0}>
-                <ListItemText 
-                className={value===0 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
-                disableTypography>Dashboard</ListItemText>
-              </ListItem>
-              <ListItem 
-              className={classes.drawerItem} 
-              onClick={()=> {setOpenDrawer(false); setValue(1)}} 
-              component={Link} to="/admin/products"
-              selected={value === 1}>
-                <ListItemText
-                className={value===1 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
-                disableTypography>Products</ListItemText>
-              </ListItem>
-              <ListItem 
-              className={classes.drawerItem} 
-              onClick={()=> {setOpenDrawer(false); setValue(2)}}
-              component={Link} to="/admin/categories"
-              selected={value === 2}>
-                <ListItemText 
-                className={value===2 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem}
-                disableTypography>Categories</ListItemText>
-              </ListItem>
-              <ListItem 
-              className={classes.drawerItem} 
-              onClick={()=> {setOpenDrawer(false); setValue(3)}}  
-              component={Link} to="/admin/orders"
-              selected={value === 3}>
-                <ListItemText 
-                className={value===3 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
-                disableTypography>Orders</ListItemText>
-              </ListItem>
-              <ListItem 
-              className={classes.drawerItem} 
-              onClick={()=> {setOpenDrawer(false); setValue(4)}}  
-              component={Link} to="/admin/users"
-              selected={value === 4}>
-                <ListItemText 
-                className={value===4 ? [classes.drawerItem,classes.drawerItemSelected] : classes.drawerItem} 
-                disableTypography>Users</ListItemText>
-              </ListItem>
-            </List>
-          </SwipeableDrawer>
-          <IconButton className={classes.DrawerIconContainer} onClick={()=>setOpenDrawer(!openDrawer)} disableRipple>
-            <MenuIcon className={classes.drawerIcon} />
-          </IconButton>
-        </React.Fragment>
-      )
 
     return (
         <Fragment>
@@ -173,7 +107,7 @@ const Sidebar = () => {
                   </Paper>
                   <div className={classes.navWrap}>
                     <Typography component="h3" className={classes.navHeading}>GENERAL</Typography>
-                    {matches ? drawer : tabs}
+                    {tabs}
                   </div>
                 </Drawer>
               </ThemeProvider>

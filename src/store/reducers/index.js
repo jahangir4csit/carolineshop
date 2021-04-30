@@ -4,9 +4,14 @@ import {
     productsReducer, 
     productDetailsReducer, 
     NewProductReducer, 
+    } from './productsReducer';
+import {
     NewCategoryReducer, 
     categoriesReducer,
-    } from './productsReducer';
+    DeleteCategoryReducer,
+    updateCategoryReducer,
+    categoryDetailsReducer
+    } from './categoryReducer';
 import {authReducer} from './authReducer';
 import {snackbarReducer} from "./snackbarReducer"; 
 
@@ -23,6 +28,9 @@ export const mainReducer = combineReducers({
     productDetails: productDetailsReducer,
     newProduct: NewProductReducer,
     newCategory: NewCategoryReducer,
+    deleteCategory: DeleteCategoryReducer,
+    updateCategory: updateCategoryReducer,
+    categoryDetails: categoryDetailsReducer,
     categories: categoriesReducer,
     auth: authReducer,
     snackbar: snackbarReducer,

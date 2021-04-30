@@ -11,6 +11,7 @@ import Orders from '../container/admin/Orders/Orders';
 import Users from '../container/admin/Users/Users';
 
 import AddCategory from '../container/admin/Categories/Category/AddCategory';
+import updateCategory from '../container/admin/Categories/Category/UpdateCategory';
 import AddProduct from '../container/admin/Products/product/NewProduct';
 import AddUser from '../container/admin/Users/User/AddUser';
 
@@ -25,7 +26,8 @@ export const ProtectedLayout = (props) => {
                     <ProtectedRoute exact path='/admin/orders' component={Orders} />
                     <ProtectedRoute exact path='/admin/users' component={Users} />
                     <ProtectedRoute exact path='/admin/adduser' component={AddUser} />
-                    <ProtectedRoute exact path='/admin/addcategory/create' component={AddCategory} />
+                    <ProtectedRoute exact path='/admin/category/create' component={AddCategory} />
+                    <ProtectedRoute exact path='/admin/category/:id' component={updateCategory} />
                     <ProtectedRoute exact path='/admin/product/create' component={AddProduct} />
                     <Route component={NotFound} />
                 </Switch>

@@ -9,16 +9,6 @@ import {
     NEW_PRODUCT_REQUEST,
     NEW_PRODUCT_SUCCESS,
     NEW_PRODUCT_FAIL,
-
-    NEW_CATEGORY_REQUEST,
-    NEW_CATEGORY_SUCCESS,
-    NEW_CATEGORY_FAIL,
-
-    ALL_CATEGORY_REQUEST,
-    ALL_CATEGORY_SUCCESS,
-    ALL_CATEGORY_FAIL,
-    NEW_CATEGORY_RESET,
-
  } 
     from '../../constants/actionTypes.js';
 
@@ -103,61 +93,6 @@ export const NewProductReducer = (state = initial, action)=>{
         case NEW_PRODUCT_FAIL: 
                 return {
                     ...state,
-                    error: action.payload
-                };
-        default: 
-            return state;
-    }
-}
-
-
-// New Category Reducer
-export const NewCategoryReducer = (state = initial, action)=>{
-    switch(action.type){
-        case NEW_CATEGORY_REQUEST:
-            return {
-                    ...state,
-                    loading: true,
-                };
-        case NEW_CATEGORY_SUCCESS:
-            return {
-                    loading: false,
-                    ...state,
-                    category: action.payload,
-                    success: true,
-                    error: null,
-                };
-        case NEW_CATEGORY_RESET: 
-                return{
-                    success: false
-                }
-        case NEW_CATEGORY_FAIL: 
-                return {
-                    ...state,
-                    error: action.payload
-                };
-        default: 
-            return state;
-    }
-}
-
-
-// Categories Reducer
-export const categoriesReducer = (state=initial, action)=>{
-    switch(action.type){
-        case ALL_CATEGORY_REQUEST:
-            return {
-                    loading: true,
-                    categories: []
-                };
-        case ALL_CATEGORY_SUCCESS:
-            return {
-                    loading: false,
-                    categories: action.payload
-                };
-        case ALL_CATEGORY_FAIL: 
-                return {
-                    loading: false,
                     error: action.payload
                 };
         default: 

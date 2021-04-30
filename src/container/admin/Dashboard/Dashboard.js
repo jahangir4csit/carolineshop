@@ -16,6 +16,7 @@ import RedeemOutlinedIcon from '@material-ui/icons/RedeemOutlined';
 import ShoppingBasketOutlinedIcon from '@material-ui/icons/ShoppingBasketOutlined';
 import ClearAllOutlinedIcon from '@material-ui/icons/ClearAllOutlined';
 import SupervisorAccountOutlinedIcon from '@material-ui/icons/SupervisorAccountOutlined';
+import Hidden from '@material-ui/core/Hidden';
 import OrderList from './OrdersList';
 import useStyles from './styles'; 
 
@@ -34,7 +35,9 @@ const Dashboard = () => {
         <div className={classes.root}>
             <Box display="flex" >
                 <Box>
-                    <Sidebar />
+                    <Hidden only="xs">
+                        <Sidebar />
+                    </Hidden>
                 </Box>
                 <Box flexGrow={1}>
                     <main className={classes.content}>

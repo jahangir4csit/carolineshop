@@ -13,8 +13,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { setSnackbar } from "../../../../store/reducers/snackbarReducer";
-
-import { newProduct, getCategories} from '../../../../store/actions/productAction';
+import { newProduct} from '../../../../store/actions/productAction';
+import { getCategories} from '../../../../store/actions/categoryAction';
 
 
 import useStyles from './styles'; 
@@ -24,7 +24,7 @@ const NewProduct = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    const { isAuthenticated, userInfo } = useSelector( state => state.auth );
+    const { userInfo } = useSelector( state => state.auth );
     const { loading, success, error } = useSelector((state)=> state.newProduct);
     const { categories } = useSelector((state)=> state.categories);
 
@@ -46,7 +46,6 @@ const NewProduct = () => {
         dispatch(getCategories());
     }, [dispatch, error, success, history])
 
-    console.log(productData);
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch(newProduct(productData, token))

@@ -1,6 +1,8 @@
-import React from 'react'
-//import useStyles from './styles';
-import { fade, makeStyles } from '@material-ui/core/styles';
+import React, {useState} from 'react'
+import {useHistory, Link} from "react-router-dom";
+import ListItemText from '@material-ui/core/ListItemText';
+import {useSelector, useDispatch} from 'react-redux';
+import { useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,125 +22,36 @@ import PermIdentityOutlinedIcon from '@material-ui/icons/PermIdentityOutlined';
 import SettingsOutlinedIcon from '@material-ui/icons/SettingsOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import MenuList from '@material-ui/core/MenuList';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import { logout } from '../../../../store/actions/authAction';
+import { setSnackbar } from "../../../../store/reducers/snackbarReducer";
 
 import '../../assets/css/dashboard.css'
-
-const useStyles = makeStyles((theme) => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    display: 'none',
-    [theme.breakpoints.up('sm')]: {
-      display: 'block',
-    },
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'rgb(99, 115, 129)',
-    fontSize: '20px'
-  },
-  inputRoot: {
-    color: 'inherit',  
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-      alignItems: 'center',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-  appBar: {
-      width: 'calc(100% - 281px)',
-      boxShadow: 'none',
-      backgroundColor: 'rgba(255, 255, 255, 0.72)',
-      backdropFilter: 'blur(6px)',
-  },
-  iconRoot: {
-    height: 42,
-    '& span': {
-        color: 'rgb(99, 115, 129)',
-        fontSize: '20px',
-    }
-  },
-  iconProfile: {
-    height: 52,
-    marginRight: 0,
-    '& span': {
-        color: 'rgb(99, 115, 129)',
-        fontSize: '30px',
-    }
-  },
-  paper: {
-    marginRight: theme.spacing(4),
-  },
-  userprofile: {
-    left: '-18px!important',
-    zIndex: '111111'
-  },
-  userNav: {
-    paddingTop: 0,
-    paddingBottom: 0,
-    '& li': {
-      padding: '12px 24px',
-      fontSize: 15,
-      textAlign: 'center',
-      '& div': {
-        minWidth: 'auto',
-        marginRight: 15,
-      }
-    },
-  }
-
-
-}));
+import useStyles from './styles'; 
 
 const ProtectedHeader = () => {
     const classes = useStyles();
+    const theme = useTheme();
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    // user Logout process
+    const logoutHandler = () => {
+    dispatch(logout());
+    dispatch(setSnackbar(true,"success","Logged Out Successfully"));
+    history.push('/');
+  };
+
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+  const [openDrawer, setOpenDrawer] = useState(false);
 
     // Profile dropdown
   const [open, setOpen] = React.useState(false);
@@ -258,19 +171,74 @@ const ProtectedHeader = () => {
         </Menu>
       );
 
+      const drawer = (
+        <React.Fragment>
+          <SwipeableDrawer 
+          disableBackdropTransition={!iOS} 
+          disableDiscovery={iOS} 
+          open={openDrawer}
+          onClose={()=>setOpenDrawer(false)} 
+          onOpen={()=>setOpenDrawer(true)}
+          classes={{paper: classes.drawerWrap}}>
+            <List disablePadding>
+              <ListItem 
+              className={classes.drawerItem} 
+              onClick={()=> {setOpenDrawer(false); }} 
+              component={Link} to="/admin/dashboard"
+              >
+                <ListItemText 
+                disableTypography>Dashboard</ListItemText>
+              </ListItem>
+              <ListItem 
+              className={classes.drawerItem} 
+              onClick={()=> {setOpenDrawer(false); }} 
+              component={Link} to="/admin/products"
+              >
+                <ListItemText
+                disableTypography>Products</ListItemText>
+              </ListItem>
+              <ListItem 
+              className={classes.drawerItem} 
+              onClick={()=> {setOpenDrawer(false);}}
+              component={Link} to="/admin/categories"
+              >
+                <ListItemText 
+                disableTypography>Categories</ListItemText>
+              </ListItem>
+              <ListItem 
+              className={classes.drawerItem} 
+              onClick={()=> {setOpenDrawer(false);}}  
+              component={Link} to="/admin/orders"
+              >
+                <ListItemText 
+                disableTypography>Orders</ListItemText>
+              </ListItem>
+              <ListItem 
+              className={classes.drawerItem} 
+              onClick={()=> {setOpenDrawer(false)}}  
+              component={Link} to="/admin/users">
+                <ListItemText 
+                disableTypography>Users</ListItemText>
+              </ListItem>
+            </List>
+          </SwipeableDrawer>
+          <IconButton 
+          aria-label="open drawer"
+          edge="start" 
+          className={classes.DrawerIconContainer} 
+          onClick={()=>setOpenDrawer(!openDrawer)} 
+          disableRipple>
+            <MenuIcon className={classes.drawerIcon} />
+          </IconButton>
+        </React.Fragment>
+      )
+
     return(
         <div className={classes.root}>
             <div className={classes.grow}>
                 <AppBar position="fixed" className={classes.appBar }>
                     <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
-                    >
-                        <MenuIcon />
-                    </IconButton>
+                      {matches ? drawer : ''}
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                         <SearchIcon />
@@ -332,7 +300,7 @@ const ProtectedHeader = () => {
                                       <ListItemIcon>
                                         <ExitToAppOutlinedIcon />
                                       </ListItemIcon>
-                                      <Typography variant="inherit">Logout</Typography>
+                                      <Typography onClick={logoutHandler} variant="inherit">Logout</Typography>
                                     </MenuItem>
                                   </MenuList>
                                 </ClickAwayListener>
@@ -347,7 +315,6 @@ const ProtectedHeader = () => {
                         aria-controls={mobileMenuId}
                         aria-haspopup="true"
                         onClick={handleMobileMenuOpen}
-                        color="inherit"
                         >
                         <MoreIcon />
                         </IconButton>
