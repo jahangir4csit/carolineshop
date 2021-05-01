@@ -1,5 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import {Link} from "react-router-dom";
+import { useHistory } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
@@ -31,29 +32,57 @@ import Sidebar from '../Layouts/Sidebar/Sidebar';
 import InputBase from '@material-ui/core/InputBase';
 import Button from '@material-ui/core/Button';
 import Product from './product/Product';
-import {getProducts} from '../../../store/actions/productAction';
+import {getProducts, deleteProduct} from '../../../store/actions/productAction';
 import Badge from '@material-ui/core/Badge';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+import { setSnackbar } from "../../../store/reducers/snackbarReducer";
+import commonStyles from '../commonStyle'; 
 import useStyles from './styles'; 
 
 const Products = () => {
     const classes = useStyles();
+    const common = commonStyles();
+    const history = useHistory();
     const baseUrl = 'http://localhost:8080';
     const { loading, products, error } = useSelector((state)=> state.productList);
+    const { isDeleted } = useSelector((state)=> state.deleteProduct);
+    const { userInfo } = useSelector( state => state.auth );
+    const token = userInfo.userInfo.token;
 
     // Get Products
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getProducts());
-    }, [dispatch])
+        if(isDeleted){
+          dispatch(setSnackbar(true,"success","Category Deleted Successfully"));
+          history.push('/admin/products');
+        }
+    }, [dispatch, isDeleted, history])
 
 function createData(productImg, product, created, status, price, action) {
     return { productImg, product, created, status, price, action };
   }
 
-  const status = <Badge badgeContent={'In Stock'} className="badge success" />;
+  const stock = (props) => props > 0 ? <Badge badgeContent={'In Stock'} className="badge success" /> : <Badge badgeContent={'Out of Stock'} className="badge error" />;
+
+  const action = (id) => <Fragment>
+  <Link className={common.editBtn} to={`/admin/product/${id}`} ><EditOutlinedIcon /> </Link>
+  <Button onClick={()=> deleteHandler(id, token)} component={Link} className={common.deleteBtn}>
+    <CloseOutlinedIcon />
+  </Button>
+</Fragment>
+
   const rows = [];
   for (let i = 0; i < products.length; i++) {
-    rows.push(createData(products[i].image, products[i].title, products[i].category.name, status, products[i].price, 'Edit | Delete'))
+    rows.push(createData(
+      products[i].image, 
+      products[i].title, 
+      products[i].category.name, 
+      stock(products[i].stock), 
+      products[i].price, 
+      action(products[i]._id),
+    ))
 } 
 
   function descendingComparator(a, b, orderBy) {
@@ -312,6 +341,10 @@ function createData(productImg, product, created, status, price, action) {
   const isSelected = (product) => selected.indexOf(product) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  const deleteHandler = (id, token) => {
+    dispatch(deleteProduct(id, token));
+  }
 
     return(
         <div className={classes.root} >

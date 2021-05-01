@@ -3,7 +3,9 @@ import CartReducer from './cartReducer';
 import {
     productsReducer, 
     productDetailsReducer, 
-    NewProductReducer, 
+    NewProductReducer,
+    UpdateProductReducer, 
+    DeleteProductReducer,
     } from './productsReducer';
 import {
     NewCategoryReducer, 
@@ -27,6 +29,8 @@ export const mainReducer = combineReducers({
     productList: productsReducer,
     productDetails: productDetailsReducer,
     newProduct: NewProductReducer,
+    updateProduct: UpdateProductReducer,
+    deleteProduct: DeleteProductReducer,
     newCategory: NewCategoryReducer,
     deleteCategory: DeleteCategoryReducer,
     updateCategory: updateCategoryReducer,

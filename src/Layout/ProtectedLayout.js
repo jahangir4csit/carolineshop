@@ -13,6 +13,7 @@ import Users from '../container/admin/Users/Users';
 import AddCategory from '../container/admin/Categories/Category/AddCategory';
 import updateCategory from '../container/admin/Categories/Category/UpdateCategory';
 import AddProduct from '../container/admin/Products/product/NewProduct';
+import UpdateProduct from '../container/admin/Products/product/UpdateProduct';
 import AddUser from '../container/admin/Users/User/AddUser';
 
 export const ProtectedLayout = (props) => {
@@ -29,6 +30,7 @@ export const ProtectedLayout = (props) => {
                     <ProtectedRoute exact path='/admin/category/create' component={AddCategory} />
                     <ProtectedRoute exact path='/admin/category/:id' component={updateCategory} />
                     <ProtectedRoute exact path='/admin/product/create' component={AddProduct} />
+                    <ProtectedRoute exact path='/admin/product/:id' component={UpdateProduct} />
                     <Route component={NotFound} />
                 </Switch>
             <ProtectedFooter/>

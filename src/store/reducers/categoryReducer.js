@@ -31,7 +31,8 @@ const initial = {
     loading: true,
     error: null,
     success: false,
-    isDeleted: false
+    isDeleted: false,
+    isUpdated: false
 };
     
 

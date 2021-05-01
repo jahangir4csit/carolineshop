@@ -11,6 +11,17 @@ import {
     NEW_PRODUCT_REQUEST,
     NEW_PRODUCT_SUCCESS,
     NEW_PRODUCT_FAIL,
+
+    UPDATE_PRODUCT_REQUEST,
+    UPDATE_PRODUCT_SUCCESS,
+    UPDATE_PRODUCT_FAIL,
+    UPDATE_PRODUCT_RESET,
+
+    DELETE_PRODUCT_REQUEST,
+    DELETE_PRODUCT_SUCCESS,
+    DELETE_PRODUCT_FAIL,
+    DELETE_PRODUCT_RESET,
+
  } 
     from '../../constants/actionTypes.js';
 
@@ -69,3 +80,69 @@ export const newProduct = (productData, token) => async (dispatch) => {
         })
     }
 }
+
+// UPDATE Product Action
+export const updateProduct = (id, productData, token) => async (dispatch) => {
+    dispatch({ type: UPDATE_PRODUCT_REQUEST })
+    try{
+        const config = {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type" : "application/json",
+                "Authorization" : `bearer ${token}`,
+            }
+        }
+        const { data } = await axios.patch(`http://localhost:8080/products/${id}`, productData, config);
+        if(data.status !== 'error'){
+            dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: data })
+            dispatch({ type: UPDATE_PRODUCT_RESET })
+        }else{
+            dispatch({ 
+                type: UPDATE_PRODUCT_FAIL, 
+                payload: data.status
+            })
+            dispatch({ type: UPDATE_PRODUCT_RESET })
+        }
+
+    }
+    catch(error){
+        dispatch({ 
+            type: UPDATE_PRODUCT_FAIL, 
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+// DELETE Product Action
+export const deleteProduct = (id, token) => async (dispatch) => {
+    dispatch({ type: DELETE_PRODUCT_REQUEST })
+    try{
+        const config = {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type" : "application/json",
+                "Authorization" : `bearer ${token}`,
+            }
+        }
+        const { data } = await axios.delete(`http://localhost:8080/products/${id}`, config);
+        if(data.status !== 'error'){
+            dispatch({ type: DELETE_PRODUCT_SUCCESS, payload: data })
+            dispatch({ type: DELETE_PRODUCT_RESET })
+        }else{
+            dispatch({ 
+                type: DELETE_PRODUCT_FAIL, 
+                payload: data.status
+            })
+            dispatch({ type: DELETE_PRODUCT_RESET })
+        }
+
+    }
+    catch(error){
+        dispatch({ 
+            type: DELETE_PRODUCT_FAIL, 
+            payload: error.response.data.message
+        })
+    }
+}
+

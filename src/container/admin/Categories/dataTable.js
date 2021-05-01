@@ -25,7 +25,7 @@ export default function DataTable() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { isAuthenticated, userInfo } = useSelector( state => state.auth );
+  const { userInfo } = useSelector( state => state.auth );
   const { loading, categories, error } = useSelector((state)=> state.categories);
   const { isDeleted } = useSelector((state)=> state.deleteCategory);
 

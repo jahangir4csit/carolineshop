@@ -13,7 +13,7 @@ import useStyles from './styles';
 import { setSnackbar } from "../../../../store/reducers/snackbarReducer";
 import { updateCategory, getCategoryDetails } from '../../../../store/actions/categoryAction';
 
-const AddCategory = () => {
+const UpdateCategory = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const params = useParams();
@@ -109,4 +109,4 @@ const AddCategory = () => {
         </div>
     )
 }
-export default AddCategory;
+export default UpdateCategory;
