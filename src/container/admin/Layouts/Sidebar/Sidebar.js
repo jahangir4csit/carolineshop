@@ -1,4 +1,5 @@
 import React, {useState, useEffect, Fragment} from 'react';
+import { useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -68,6 +69,8 @@ const Sidebar = () => {
         setValue(value)
     }
 
+    const { user } = useSelector( state => state.loadUser );
+
     const tabs = (
         <React.Fragment>
           <Tabs 
@@ -102,7 +105,7 @@ const Sidebar = () => {
                       >
                         <Avatar alt="profile" src={profileImg} />
                       </StyledBadge>
-                      <ListItemText className={classes.profileText} primary="Travis" secondary="admin" />
+                      <ListItemText className={classes.profileText} primary={user ? user.username : ''} secondary={user ? user.role : ''} />
                     </ListItem>
                   </Paper>
                   <div className={classes.navWrap}>

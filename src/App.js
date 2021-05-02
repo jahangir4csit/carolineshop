@@ -1,15 +1,27 @@
+import React, {useEffect} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
 import {PublicLayout} from './Layout/PublicLayout';
 import {ProtectedLayout} from './Layout/ProtectedLayout';
+import {AuthLayout} from './Layout/AuthLayout';
 import Snackbar from './components/ui/Snackbar';
+import {loadUser} from './store/actions/authAction';
 
 import './App.css';
 //import useStyles from './styles'; 
 
 function App() {
-  //const classes = useStyles();
+
+  const dispatch = useDispatch();
+  const { userInfo } = useSelector( state => state.auth );
+  const { user } = useSelector( state => state.loadUser );
+  useEffect(()=>{
+    const token = userInfo ? userInfo.userInfo.token : '';
+    dispatch(loadUser(token));
+  },[dispatch, userInfo])
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
@@ -18,6 +30,7 @@ function App() {
           <Switch>
             <Route path='/admin' component={ProtectedLayout} />
             <Route path='/' component={PublicLayout} />
+            <Route path='/' component={AuthLayout} />
           </Switch>
         </div>
       </Router>

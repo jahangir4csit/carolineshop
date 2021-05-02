@@ -39,8 +39,6 @@ const UpdateProduct = () => {
         title: '', price: '', description: '', category_id: '', stock: '', image: ''
     });
     
-    console.log(isUpdated, 'update')
-    console.log(productData, 'data state')
     // create new product
     useEffect(() => {
         if(product && product._id !== productId){
@@ -154,7 +152,7 @@ const UpdateProduct = () => {
                                                         variant="container"
                                                         startIcon={<AddOutlinedIcon />}
                                                         className="btn-submit">
-                                                        Create
+                                                        Update
                                                     </Button>
                                                 </Box>
                                             </Box>

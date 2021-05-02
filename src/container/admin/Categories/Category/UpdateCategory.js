@@ -94,7 +94,7 @@ const UpdateCategory = () => {
                                                         variant="container"
                                                         startIcon={<AddOutlinedIcon />}
                                                         className="btn-submit">
-                                                        Create
+                                                        Update
                                                     </Button>
                                                 </Box>
                                             </Box>

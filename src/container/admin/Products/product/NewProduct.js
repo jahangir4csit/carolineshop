@@ -73,7 +73,7 @@ const NewProduct = () => {
                                             variant="outlined"
                                             label="Title"
                                             fullWidth
-                                            value={productData.Title}
+                                            value={productData.title}
                                             onChange={(e)=> setProductData({...productData, title: e.target.value})} />
 
                                             <TextField

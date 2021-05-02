@@ -60,7 +60,7 @@ export default function Header(){
   const location = useLocation();
 
   const { isAuthenticated, loading, userInfo, error } = useSelector( state => state.auth );
-  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem('userInfo')));
+
 
   const cartReducer = useSelector((state)=> state);
   const cartItem = cartReducer.cartStore.cart;
@@ -71,15 +71,7 @@ export default function Header(){
     dispatch(logout());
     dispatch(setSnackbar(true,"success","Logged Out Successfully"));
     history.push('/');
-    //setOpenProfile(false);
   };
-
-  useEffect(()=>{
-    const token = user?.token;
-    setUser(JSON.parse(sessionStorage.getItem('userInfo')));
-  },[location]);
-
-  // userInfo 
 
   // User profile nav
   const [openProfile, setOpenProfile] = React.useState(false);
@@ -345,7 +337,7 @@ export default function Header(){
                                 <ClickAwayListener onClickAway={handleCloseProfileNav}>
                                   <MenuList autoFocusItem={openProfile} id="menu-list-grow" onKeyDown={handleListKeyDown}>
 
-                                  {userInfo && userInfo.userInfo.role == 'admin' && (
+                                  {userInfo && userInfo.userInfo.role === 'admin' && (
                                     <MenuItem onClick={handleCloseProfileNav}
                                       component={Link} to="admin/dashboard">
                                       <ListItemIcon style={{minWidth: '40px'}}>

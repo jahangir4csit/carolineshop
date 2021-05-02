@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -12,18 +12,22 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { setSnackbar } from "../../../../store/reducers/snackbarReducer";
-import { newUser } from '../../../../store/actions/userAction';
+import { updateUser, getUserAction } from '../../../../store/actions/userAction';
 
 
 import useStyles from './styles'; 
 
-const AddUser = () => {
+const UpdateUser = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+    const params = useParams();
+
+    const userId = params.id;
 
     const { userInfo } = useSelector( state => state.auth );
-    const { loading, success, error } = useSelector((state)=> state.newUser);
+    const { loading, isUpdated, error } = useSelector((state)=> state.updateUser);
+    const { userDetails } = useSelector((state)=> state.getUser);
 
     const token = userInfo.userInfo.token;
 
@@ -40,24 +44,34 @@ const AddUser = () => {
             zipcode: ''
         }
     });
+    
 
-    // create new User
+    // Update new User
     useEffect(() => {
-        if(error){
-            dispatch(setSnackbar(true,"error","User Create Failed"));
+        if(userDetails && userDetails._id !== userId){
+            dispatch(getUserAction(userId, token));
+        }else{
+            setUserData({ 
+                username: userDetails.username,
+                email: userDetails.email,
+                password: userDetails.password, 
+                role: userDetails.role,
+             })
         }
-        if(success){
-            dispatch(setSnackbar(true,"success","User Created Successfully"));
+
+        if(error){
+            dispatch(setSnackbar(true,"error","User Update Failed"));
+        }
+        if(isUpdated){
+            dispatch(setSnackbar(true,"success","User Updated Successfully"));
             history.push('/admin/users');
         }
-    }, [dispatch, error, success, history])
+    }, [dispatch, error, isUpdated, history, userId, token])
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(newUser(userData, token))
+        dispatch(updateUser(userId, userData, token))
     }
-
-    console.log(userData, 'user data')
 
     return(
         <div className={classes.root} >
@@ -78,21 +92,6 @@ const AddUser = () => {
                                         <form className={classes.form} encType="multipart/form-data" noValidate autoComplete="off" onSubmit={handleSubmit}>
                                             <Grid container direction="row" spacing="4">
                                                 <Grid item xs={12} sm={6}>
-                                                    {/* <TextField
-                                                    name="fname"
-                                                    variant="outlined"
-                                                    label="First Name"
-                                                    fullWidth
-                                                    value={userData.fname}
-                                                    onChange={(e)=> setUserData({...userData, fname: e.target.value})} />
-                                                
-                                                    <TextField
-                                                    name="lname"
-                                                    variant="outlined"
-                                                    label="Last Name"
-                                                    fullWidth
-                                                    value={userData.lname}
-                                                    onChange={(e)=> setUserData({...userData, lname: e.target.value})} /> */}
 
                                                     <TextField
                                                     name="username"
@@ -241,4 +240,4 @@ const AddUser = () => {
         </div>
     )
 }
-export default AddUser;
+export default UpdateUser;

@@ -14,7 +14,15 @@ import {
     updateCategoryReducer,
     categoryDetailsReducer
     } from './categoryReducer';
-import {authReducer} from './authReducer';
+
+import {
+    usersReducer,
+    NewUserReducer,
+    DeleteUserReducer,
+    updateUserReducer,
+    getUserReducer
+} from './userReducer';
+import {authReducer, loadReducer} from './authReducer';
 import {snackbarReducer} from "./snackbarReducer"; 
 
 export const initialState = {
@@ -36,6 +44,12 @@ export const mainReducer = combineReducers({
     updateCategory: updateCategoryReducer,
     categoryDetails: categoryDetailsReducer,
     categories: categoriesReducer,
+    users: usersReducer,
+    newUser: NewUserReducer,
+    deleteUser: DeleteUserReducer,
+    getUser: getUserReducer,
+    updateUser: updateUserReducer,
     auth: authReducer,
+    loadUser: loadReducer,
     snackbar: snackbarReducer,
 })

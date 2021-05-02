@@ -26,18 +26,32 @@ import {
  } 
     from '../../constants/actionTypes.js';
 
-// Create Category Action
-export const newCategory = (categoryData, token) => async (dispatch) => {
-    dispatch({ type: NEW_CATEGORY_REQUEST})
-    try{
-        const config = {
+const baseUrl = 'http://localhost:8080';
+
+const config = (token) => {
+    return(
+        {
             headers: {
                 "Accept": "application/json",
                 "Content-Type" : "application/json",
                 "Authorization" : `bearer ${token}`,
             }
         }
-        const { data } = await axios.post('http://localhost:8080/category', categoryData, config);
+    )
+}
+
+// Create Category Action
+export const newCategory = (categoryData, token) => async (dispatch) => {
+    dispatch({ type: NEW_CATEGORY_REQUEST})
+    try{
+        // const config = {
+        //     headers: {
+        //         "Accept": "application/json",
+        //         "Content-Type" : "application/json",
+        //         "Authorization" : `bearer ${token}`,
+        //     }
+        // }
+        const { data } = await axios.post(`${baseUrl}/category`, categoryData, config(token));
         dispatch({ type: NEW_CATEGORY_SUCCESS, payload: data })
         dispatch({ type: NEW_CATEGORY_RESET })
     }
@@ -68,14 +82,7 @@ export const getCategories = () => async (dispatch) => {
 export const deleteCategory = (id, token) => async (dispatch) => {
     try{
         dispatch({ type: DELETE_CATEGORY_REQUEST})
-        const config = {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type" : "application/json",
-                "Authorization" : `bearer ${token}`,
-            }
-        }
-        const { data } = await axios.delete(`http://localhost:8080/category/${id}`, config);
+        const { data } = await axios.delete(`${baseUrl}/category/${id}`, config(token));
         dispatch({ type: DELETE_CATEGORY_SUCCESS, payload: data })
         dispatch({ type: DELETE_CATEGORY_RESET })
     }
@@ -107,14 +114,7 @@ export const getCategoryDetails = (categoryId) => async (dispatch) => {
 export const updateCategory = (id, token, categoryData) => async (dispatch) => {
     try{
         dispatch({ type: UPDATE_CATEGORY_REQUEST})
-        const config = {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type" : "application/json",
-                "Authorization" : `bearer ${token}`,
-            }
-        }
-        const { data } = await axios.patch(`http://localhost:8080/category/${id}`, categoryData, config);
+        const { data } = await axios.patch(`${baseUrl}/category/${id}`, categoryData, config(token));
         dispatch({ type: UPDATE_CATEGORY_SUCCESS, payload: data })
         dispatch({ type: UPDATE_CATEGORY_RESET })
     }

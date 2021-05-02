@@ -33,6 +33,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { logout } from '../../../../store/actions/authAction';
 import { setSnackbar } from "../../../../store/reducers/snackbarReducer";
 
+
 import '../../assets/css/dashboard.css'
 import useStyles from './styles'; 
 
@@ -288,7 +289,7 @@ const ProtectedHeader = () => {
                                       <ListItemIcon>
                                         <PermIdentityOutlinedIcon />
                                       </ListItemIcon>
-                                      <Typography variant="inherit">Profile</Typography>
+                                      <Typography component={Link} to="/admin/my-details" variant="inherit">Profile</Typography>
                                     </MenuItem>
                                     <MenuItem onClick={handleClose}>
                                       <ListItemIcon>

@@ -14,17 +14,25 @@ import {
 import axios from 'axios';
 import * as api from '../../api/index.js';
 
+const baseUrl = 'http://localhost:8080';
+
+const config = (token) => {
+    return(
+        {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type" : "application/json",
+                "Authorization" : `bearer ${token}`,
+            }
+        }
+    )
+}
+
 // *** User Sign in Action
 export const signin = (email, password) => async (dispatch) => {
     try{
         dispatch({ type: AUTH_REQUEST, payload: {email, password} })
-        const config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }
-        //const { data } = await api.signIn({email,password}, config);
-        const { data } = await axios.post('http://localhost:8080/signin/', {email,password})
+        const { data } = await axios.post(`${baseUrl}/signin/`, {email,password})
         if(data.userInfo){
             dispatch({ type: AUTH_SUCCESS, payload: data });
             sessionStorage.setItem('userInfo', JSON.stringify(data))
@@ -43,12 +51,7 @@ export const signin = (email, password) => async (dispatch) => {
 export const signup = (userData) => async (dispatch) => {
     try{
         dispatch({ type: USER_REG_REQUEST, userData });
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-        const { data } = await api.signUp(userData, config);
+        const { data } = await api.signUp(userData);
         dispatch({ type: USER_REG_SUCCESS, payload: data });
     }catch(error){
         dispatch({ 
@@ -59,10 +62,10 @@ export const signup = (userData) => async (dispatch) => {
 }
 
 // *** Load User Action
-export const loadUser = () => async (dispatch) => {
+export const loadUser = (token) => async (dispatch) => {
     try{
         dispatch({ type: LOAD_USER_REQUEST });
-        const { data } = await axios.get('http://localhost:8080/user/');
+        const { data } = await axios.get(`${baseUrl}/my-detail/`, config(token));
         dispatch({ type: LOAD_USER_SUCCESS, payload: data });
         //history.push('/')
     }catch(error){

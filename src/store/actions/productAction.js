@@ -25,6 +25,19 @@ import {
  } 
     from '../../constants/actionTypes.js';
 
+const config = (token) => {
+    return(
+        {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type" : "application/json",
+                "Authorization" : `bearer ${token}`,
+            }
+        }
+    )
+}
+const baseUrl = 'http://localhost:8080';
+
 // **** Collection: Frontend Actions  **** 
 // Product List Action 
 export const getProducts = () => async (dispatch) => {
@@ -63,14 +76,7 @@ export const getProductDetails = (productId) => async (dispatch) => {
 export const newProduct = (productData, token) => async (dispatch) => {
     dispatch({ type: NEW_PRODUCT_REQUEST })
     try{
-        const config = {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type" : "application/json",
-                "Authorization" : `bearer ${token}`,
-            }
-        }
-        const { data } = await axios.post('http://localhost:8080/products', productData, config);
+        const { data } = await axios.post(`${baseUrl}/products`, productData, config(token));
         dispatch({ type: NEW_PRODUCT_SUCCESS, payload: data })
     }
     catch(error){
@@ -85,14 +91,7 @@ export const newProduct = (productData, token) => async (dispatch) => {
 export const updateProduct = (id, productData, token) => async (dispatch) => {
     dispatch({ type: UPDATE_PRODUCT_REQUEST })
     try{
-        const config = {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type" : "application/json",
-                "Authorization" : `bearer ${token}`,
-            }
-        }
-        const { data } = await axios.patch(`http://localhost:8080/products/${id}`, productData, config);
+        const { data } = await axios.patch(`${baseUrl}/products/${id}`, productData, config(token));
         if(data.status !== 'error'){
             dispatch({ type: UPDATE_PRODUCT_SUCCESS, payload: data })
             dispatch({ type: UPDATE_PRODUCT_RESET })
@@ -118,14 +117,7 @@ export const updateProduct = (id, productData, token) => async (dispatch) => {
 export const deleteProduct = (id, token) => async (dispatch) => {
     dispatch({ type: DELETE_PRODUCT_REQUEST })
     try{
-        const config = {
-            headers: {
-                "Accept": "application/json",
-                "Content-Type" : "application/json",
-                "Authorization" : `bearer ${token}`,
-            }
-        }
-        const { data } = await axios.delete(`http://localhost:8080/products/${id}`, config);
+        const { data } = await axios.delete(`${baseUrl}/products/${id}`, config(token));
         if(data.status !== 'error'){
             dispatch({ type: DELETE_PRODUCT_SUCCESS, payload: data })
             dispatch({ type: DELETE_PRODUCT_RESET })

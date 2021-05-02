@@ -18,9 +18,8 @@ import AddUser from '../container/admin/Users/User/AddUser';
 import UpdateUser from '../container/admin/Users/User/UpdateUser';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import Cart from '../container/Cart/Cart';
-import UserDetails from '../container/admin/Users/User/userDetails';
 
-export const ProtectedLayout = (props) => {
+export const AuthLayout = (props) => {
     return(
         <Fragment>
             <ProtectedHeader/>
@@ -36,7 +35,6 @@ export const ProtectedLayout = (props) => {
                     <ProtectedRoute exact path='/admin/product/create' component={AddProduct} />
                     <ProtectedRoute exact path='/admin/product/:id' component={UpdateProduct} />
                     <ProtectedRoute exact path='/admin/user/:id' component={UpdateUser} />
-                    <ProtectedRoute exact path='/admin/my-details' component={UserDetails} />
                     <ProtectedRoute exact path="/cart">
                         <Breadcrumb title="Cart" />
                         <Cart />

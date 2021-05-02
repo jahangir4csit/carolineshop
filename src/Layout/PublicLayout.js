@@ -29,10 +29,6 @@ export const PublicLayout = (props) => {
                         <Breadcrumb title="Product Details" />
                         <ProductDetails />
                     </Route>
-                    <Route exact path="/cart">
-                        <Breadcrumb title="Cart" />
-                        <Cart />
-                    </Route>
                     <Route exact path="/auth">
                         <Breadcrumb title="My Account" />
                         <Auth />
