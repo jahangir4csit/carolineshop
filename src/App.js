@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/ui/Theme';
 import {PublicLayout} from './Layout/PublicLayout';
 import {ProtectedLayout} from './Layout/ProtectedLayout';
-import {AuthLayout} from './Layout/AuthLayout';
+import {AdminLayout} from './Layout/AdminLayout';
 import Snackbar from './components/ui/Snackbar';
 import {loadUser} from './store/actions/authAction';
 
@@ -28,9 +28,9 @@ function App() {
         <div className="App">
           <Snackbar />
           <Switch>
-            <Route path='/admin' component={ProtectedLayout} />
+            <Route path='/admin' component={AdminLayout} />
+            <Route path='/cart' component={ProtectedLayout} />
             <Route path='/' component={PublicLayout} />
-            <Route path='/' component={AuthLayout} />
           </Switch>
         </div>
       </Router>
