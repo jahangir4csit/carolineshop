@@ -24,6 +24,7 @@ export const createOrder = (order, token) => async (dispatch, getState) => {
     try {
         dispatch({type: CREATE_ORDER_REQUEST})
         const { data } = await axios.post(`${baseUrl}/order/checkout`, order, config(token));
+        console.log(data, 'order place');
         dispatch({
             type: CREATE_ORDER_SUCCESS,
             payload: data

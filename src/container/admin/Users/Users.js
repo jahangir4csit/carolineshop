@@ -10,6 +10,7 @@ import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
 import Sidebar from '../Layouts/Sidebar/Sidebar';
 import useStyles from './styles';
 import DataTable from './userList'; 
+import Hidden from '@material-ui/core/Hidden';
 
 import {getUsers} from '../../../store/actions/userAction';
 
@@ -27,40 +28,36 @@ const Users = () => {
        
     return(
         <div className={classes.root} >
-            <Box display="flex" >
-                <Box>
-                    <Sidebar />
-                </Box>
-                <Box flexGrow={1}>
-                    <main className={classes.content}>
-                        <div className="appbarspace" />
-                        <Container maxWidth="lg">
-                            <Grid container direction="column" spacing="3">
-                                <Grid item xs={12}>
-                                    <Box display="flex">
-                                        <Box flexGrow={1}>
-                                            <Typography variant="h2" className="contentHeading">All Users</Typography>
-                                        </Box>
-                                        <Box>
-                                            <Button
-                                            variant="contained"
-                                            className="createButton"
-                                            component={Link} to="/admin/user/create"
-                                            startIcon={<AddOutlinedIcon />}
-                                            >
-                                                Create User
-                                            </Button>
-                                        </Box>
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={12} md={7}>
-                                    {users ? <DataTable /> : 'Empty data' }
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    </main>
-                </Box>
-            </Box>
+            <Hidden only="xs">
+                <Sidebar />
+            </Hidden>
+            <main className={classes.content}>
+                <div className="appbarspace" />
+                <Container maxWidth="lg">
+                    <Grid container direction="column" spacing="3">
+                        <Grid item xs={12}>
+                            <Box display="flex">
+                                <Box flexGrow={1}>
+                                    <Typography variant="h2" className="contentHeading">All Users</Typography>
+                                </Box>
+                                <Box>
+                                    <Button
+                                    variant="contained"
+                                    className="createButton"
+                                    component={Link} to="/admin/user/create"
+                                    startIcon={<AddOutlinedIcon />}
+                                    >
+                                        Create User
+                                    </Button>
+                                </Box>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={7}>
+                            {users ? <DataTable /> : 'Empty data' }
+                        </Grid>
+                    </Grid>
+                </Container>
+            </main>
         </div>
     )
 }

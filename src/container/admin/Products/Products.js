@@ -37,6 +37,7 @@ import Badge from '@material-ui/core/Badge';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import { setSnackbar } from "../../../store/reducers/snackbarReducer";
+import Hidden from '@material-ui/core/Hidden';
 import commonStyles from '../commonStyle'; 
 import useStyles from './styles'; 
 
@@ -348,113 +349,109 @@ function createData(productImg, product, created, status, price, action) {
 
     return(
         <div className={classes.root} >
-            <Box display="flex" >
-                <Box>
-                    <Sidebar />
-                </Box>
-                <Box flexGrow={1}>
-                    <main className={classes.content}>
-                        <div className="appbarspace" />
-                        <Container maxWidth="lg">
-                            <Grid container direction="column" spacing="3">
-                                <Grid item xs={12}>
-                                    <Box display="flex">
-                                        <Box flexGrow={1}>
-                                            <Typography variant="h2" className="contentHeading">Product List</Typography>
-                                        </Box>
-                                        <Box>
-                                            <Button
-                                            variant="contained"
-                                            className="createButton"
-                                            component={Link} to="/admin/product/create"
-                                            startIcon={<AddOutlinedIcon />}
-                                            >
-                                                Create Product
-                                            </Button>
-                                        </Box>
-                                    </Box>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Paper className={classes.paper}>
-                                        <EnhancedTableToolbar numSelected={selected.length} />
-                                        <TableContainer>
-                                            <Table
-                                                className={classes.table}
-                                                aria-labelledby="tableTitle"
-                                                aria-label="enhanced table"
-                                            >
-                                                <EnhancedTableHead
-                                                classes={classes}
-                                                numSelected={selected.length}
-                                                order={order}
-                                                orderBy={orderBy}
-                                                onSelectAllClick={handleSelectAllClick}
-                                                onRequestSort={handleRequestSort}
-                                                rowCount={rows.length}
-                                                />
-                                                <TableBody>
-                                                {stableSort(rows, getComparator(order, orderBy))
-                                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                    .map((row, index) => {
-                                                    const isItemSelected = isSelected(row.product);
-                                                    const labelId = `enhanced-table-checkbox-${index}`;
+          <Hidden only="xs">
+            <Sidebar />
+          </Hidden>
+          <main className={classes.content}>
+            <div className="appbarspace" />
+              <Container maxWidth="lg">
+                  <Grid container direction="column" spacing="3">
+                    <Grid item xs={12}>
+                      <Grid container direction="row" justify="space-between" alignItems="center">
+                        <Grid item>
+                            <Typography variant="h2" className="contentHeading">Product List</Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                            variant="contained"
+                            className="createButton"
+                            component={Link} to="/admin/product/create"
+                            startIcon={<AddOutlinedIcon />}
+                            >
+                                Create Product
+                            </Button>
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Paper className={classes.paper}>
+                        <EnhancedTableToolbar numSelected={selected.length} />
+                        <TableContainer>
+                            <Table
+                                className={classes.table}
+                                aria-labelledby="tableTitle"
+                                aria-label="enhanced table"
+                            >
+                                <EnhancedTableHead
+                                classes={classes}
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={rows.length}
+                                />
+                                <TableBody>
+                                {stableSort(rows, getComparator(order, orderBy))
+                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                    .map((row, index) => {
+                                    const isItemSelected = isSelected(row.product);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
 
-                                                    return (
-                                                        <TableRow
-                                                        hover
-                                                        onClick={(event) => handleClick(event, row.product)}
-                                                        role="checkbox"
-                                                        aria-checked={isItemSelected}
-                                                        tabIndex={-1}
-                                                        key={row.product}
-                                                        selected={isItemSelected}
-                                                        className="dataTblBody"
-                                                        >
-                                                        <TableCell padding="checkbox">
-                                                            <Checkbox
-                                                            style={{
-                                                                transform: "scale(1.5)",
-                                                            }}
-                                                            checked={isItemSelected}
-                                                            inputProps={{ 'aria-labelledby': labelId }}
-                                                            />
-                                                        </TableCell>
-                                                        <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                            <Box display="flex">
-                                                                <Box p={1}>
-                                                                    <img className={classes.rowProductImg} align="left" src={ baseUrl + row.productImg } alt={row.product} />
-                                                                </Box>
-                                                                <Box alignSelf="center">
-                                                                    {row.product}
-                                                                </Box>
-                                                            </Box>
-                                                        </TableCell>
-                                                        <TableCell align="right">{row.created}</TableCell>
-                                                        <TableCell align="right">{row.status}</TableCell>
-                                                        <TableCell align="right">{row.price}</TableCell>
-                                                        <TableCell align="right">{row.action}</TableCell>
-                                                        </TableRow>
-                                                    );
-                                                    })}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                        <TablePagination
-                                        rowsPerPageOptions={[5, 10, 25]}
-                                        component="div"
-                                        count={rows.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        onChangePage={handleChangePage}
-                                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                                        />
-                                    </Paper>
-                                </Grid>
-                            </Grid>
-                        </Container>
-                    </main>
-                </Box>
-            </Box>
+                                    return (
+                                        <TableRow
+                                        hover
+                                        onClick={(event) => handleClick(event, row.product)}
+                                        role="checkbox"
+                                        aria-checked={isItemSelected}
+                                        tabIndex={-1}
+                                        key={row.product}
+                                        selected={isItemSelected}
+                                        className="dataTblBody"
+                                        >
+                                        <TableCell padding="checkbox">
+                                            <Checkbox
+                                            style={{
+                                                transform: "scale(1.5)",
+                                            }}
+                                            checked={isItemSelected}
+                                            inputProps={{ 'aria-labelledby': labelId }}
+                                            />
+                                        </TableCell>
+                                        <TableCell component="th" id={labelId} scope="row" padding="none">
+                                            <Box display="flex">
+                                                <Box p={1}>
+                                                    <img className={classes.rowProductImg} align="left" src={ baseUrl + row.productImg } alt={row.product} />
+                                                </Box>
+                                                <Box alignSelf="center">
+                                                    {row.product}
+                                                </Box>
+                                            </Box>
+                                        </TableCell>
+                                        <TableCell align="right">{row.created}</TableCell>
+                                        <TableCell align="right">{row.status}</TableCell>
+                                        <TableCell align="right">{row.price}</TableCell>
+                                        <TableCell align="right">{row.action}</TableCell>
+                                        </TableRow>
+                                    );
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={rows.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        />
+                      </Paper>
+                    </Grid>
+                </Grid>
+              </Container>
+          </main>
         </div>
     )
 }

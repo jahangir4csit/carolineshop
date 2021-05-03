@@ -1,7 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme)=>({
-    root: { },
+    root: { 
+        display: 'flex',
+    },
+    content: {
+        flexGrow: 1,
+        overflow: 'hidden',
+      },
     wbox: {
         backgroundColor: 'rgb(200, 250, 205)',
         display: 'flex',
