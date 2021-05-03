@@ -23,6 +23,7 @@ import {
     getUserReducer
 } from './userReducer';
 import {authReducer, loadReducer} from './authReducer';
+import {newOrderReducer} from './OrderReducer';
 import {snackbarReducer} from "./snackbarReducer"; 
 
 export const initialState = {
@@ -53,6 +54,7 @@ export const mainReducer = combineReducers({
     getUser: getUserReducer,
     updateUser: updateUserReducer,
     auth: authReducer,
+    newOrder: newOrderReducer,
     loadUser: loadReducer,
     snackbar: snackbarReducer,
 })

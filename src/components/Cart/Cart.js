@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -19,8 +19,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import {addItemToCart} from '../../store/actions/cartAction';
+import {createOrder} from '../../store/actions/orderAction';
 import useStyles from './styles'; 
-import { Fragment } from 'react';
 
 export default function Cart(){
     const baseUrl = 'http://localhost:8080';
@@ -28,6 +28,7 @@ export default function Cart(){
     const dispatch = useDispatch();
 
     const {cartItems} = useSelector(state => state.cart);
+    const { userInfo } = useSelector( state => state.auth );
 
     const [shippingCharge, setSeshippingCharge] = React.useState('50');
     const handleRadioChange = (event) => {
@@ -56,6 +57,14 @@ export default function Cart(){
     const invoiceSubtotal = subtotal(rows);
     const invoiceShipping = shippingCharge;
     const invoiceTotal = (Number(invoiceSubtotal) + Number(invoiceShipping)).toFixed(2);
+    const token = userInfo.userInfo.token;
+    const ConfirmOrder = () =>{
+        const data = {
+            invoiceSubtotal,
+            invoiceTotal
+        }
+        dispatch(createOrder(data, token));
+    }
         
     return(
         <Fragment>
@@ -166,6 +175,7 @@ export default function Cart(){
                                                 <Button
                                                 variant="contained"
                                                 color="primary"
+                                                onClick={ConfirmOrder}
                                                 className={`${classes.button} ${classes.my3}`} 
                                                 >
                                                     Proceed To Checkout
