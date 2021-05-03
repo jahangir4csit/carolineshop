@@ -9,17 +9,23 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Ratings from '../../../components/ui/Ratings';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
-import AddSharpIcon from '@material-ui/icons/AddSharp';
-import RemoveSharpIcon from '@material-ui/icons/RemoveSharp';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+import { setSnackbar } from "../../../store/reducers/snackbarReducer";
+
+import {addItemToCart} from '../../../store/actions/cartAction';
 import useStyles from './styles';
 
 const ProductDetails = () =>{
     const params = useParams();
     const classes = useStyles();
+    const baseUrl = 'http://localhost:8080';
+    const [quantity, setQuantity] = React.useState(1);
     const [alignment, setAlignment] = React.useState('left');
     const handleAlignment = (event, newAlignment) => {
         setAlignment(newAlignment);
@@ -36,20 +42,11 @@ const ProductDetails = () =>{
             console.log(error)
         }
       }, [dispatch, productId, error])
-      
 
-      const addCartItem = (id,name,price,img) =>{
-        dispatch({
-            type: 'ADD_TO_CART',
-            payload: {
-                id: id,
-                name: name,
-                price: price,
-                img: img,
-            }
-        });
+      const addToCart = () => {
+          dispatch(addItemToCart(productId, quantity));
+          dispatch(setSnackbar(true,"success","Item Added to Cart"));
       }
-
         
     return(
         <Fragment>
@@ -62,7 +59,7 @@ const ProductDetails = () =>{
                                     <Grid container direction="row">
                                         <Grid item xs={12} sm={5}>
                                             <div className="product_details_thumb">
-                                                <img className={classes.thumb} src={product.image} alt={product.title} />
+                                                <img className={classes.thumb} src={`${baseUrl}${product.image}`} alt={product.title} />
                                             </div>
                                         </Grid>
                                         <Grid item xs={12} sm={7}>
@@ -72,7 +69,7 @@ const ProductDetails = () =>{
                                                 <Ratings />
                                                 <Typography component="span" class="review-text">3 reviews</Typography>
                                                 <Typography component="p" class="specifications">SKU: <b>0014</b></Typography>
-                                                <Typography component="p" class="specifications">AVAILABILITY: <b class="color-green">In Stock</b></Typography>
+                                                <Typography component="p" class="specifications">AVAILABILITY: {product.stock <= 0 ? <b class="color-danger">Out of Stock</b> : <b class="color-green">In Stock</b> }</Typography>
                                                 <div className="product_size">
                                                     <Typography component="span" class="specifications">SIZE: </Typography>
                                                     <ToggleButtonGroup
@@ -98,28 +95,31 @@ const ProductDetails = () =>{
                                                         </ToggleButton>
                                                     </ToggleButtonGroup>
                                                 </div>
-
-                                                <div class="d-flex">
-                                                    <span class="specifications">COLOR: </span>
-                                                    <ul class="color-list align-self-center">
-                                                        <li><Link to="#"></Link></li>
-                                                        <li><Link to="#"></Link></li>
-                                                        <li><Link to="#"></Link></li>
-                                                    </ul>
-                                                </div>
-                                                <p class="specifications">CATEGORY: <b>{product.category}</b></p>
+                                                <p class="specifications">CATEGORY: <b>{product.category.name}</b></p>
                                                 <div class="btn-wrapper d-flex">
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend align-self-center">
-                                                            <Link class="btn btn-sm" id="minus-btn"><RemoveSharpIcon /></Link>
-                                                        </div>
-                                                        <input type="number" id="qty_input" class="form-control text-right form-control-sm" min="1" value="1" disabled="true" />
-                                                        <div class="input-group-prepend align-self-center">
-                                                            <Link class="btn btn-sm" id="plus-btn"><AddSharpIcon /></Link>
-                                                        </div>
-                                                    </div>
+                                                    <ButtonGroup>
+                                                        <Button
+                                                            aria-label="reduce"
+                                                            className={classes.noRadius}
+                                                            onClick={() => {
+                                                                setQuantity(Math.max(quantity - 1, 1));
+                                                            }}
+                                                        >
+                                                            <RemoveIcon fontSize="small" />
+                                                        </Button>
+                                                        <Button>{quantity}</Button>
+                                                        <Button
+                                                            aria-label="increase"
+                                                            className={classes.noRadius}
+                                                            onClick={() => {
+                                                                setQuantity(quantity < product.stock ? quantity + 1 : quantity);
+                                                            }}
+                                                        >
+                                                            <AddIcon fontSize="small" />
+                                                        </Button>
+                                                    </ButtonGroup>
                                                     <Button variant="contained" className="add-to-cart-style"
-                                                    onClick={(data)=>addCartItem(product.id,product.title,product.price,product.image)}>
+                                                    disabled={product.stock === 0} onClick={addToCart}>
                                                     <LocalMallOutlinedIcon /> Add to cart</Button>
                                                 </div>
                                                 <div class="btn-wrapper">

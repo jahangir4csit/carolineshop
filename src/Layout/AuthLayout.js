@@ -17,7 +17,7 @@ import UpdateProduct from '../container/admin/Products/product/UpdateProduct';
 import AddUser from '../container/admin/Users/User/AddUser';
 import UpdateUser from '../container/admin/Users/User/UpdateUser';
 import Breadcrumb from '../components/layout/Breadcrumb';
-import Cart from '../container/Cart/Cart';
+import Cart from '../components/Cart/Cart';
 
 export const AuthLayout = (props) => {
     return(

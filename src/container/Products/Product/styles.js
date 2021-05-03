@@ -20,6 +20,9 @@ export default makeStyles((theme)=>({
             backgroundColor: '#000',
             color: '#fff'
         }
+    },
+    noRadius: {
+        borderRadius: 0,
     }
 
 

@@ -19,7 +19,7 @@ const Product = ({ product }) =>{
 
     return(
         <Grid item xs={12} sm={4} md={3} >
-            <Card className="product mt40" key={product._id}>
+            <Card className="product mt40">
                 <div className="thumb">
                     <CardMedia
                         className={classes.cardMedia}

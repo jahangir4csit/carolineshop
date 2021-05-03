@@ -60,11 +60,11 @@ export default function Header(){
   const location = useLocation();
 
   const { isAuthenticated, loading, userInfo, error } = useSelector( state => state.auth );
+  const {cartItems} = useSelector(state => state.cart);
 
-
-  const cartReducer = useSelector((state)=> state);
-  const cartItem = cartReducer.cartStore.cart;
-  const addedItem = cartItem.map((item)=> <MenuItem>{item.name} - Price: {item.price}</MenuItem> );
+  // const cartReducer = useSelector((state)=> state);
+  // const cartItem = cartReducer.cartStore.cart;
+  // const addedItem = cartItem.map((item)=> <MenuItem>{item.name} - Price: {item.price}</MenuItem> );
 
   // user Logout process
   const logoutHandler = () => {
@@ -289,7 +289,7 @@ export default function Header(){
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
                         onClick={handleProfileMenuOpen}>
-                          <Badge badgeContent={cartReducer.cartStore.total} color="primary" className={classes.badge}>
+                          <Badge badgeContent={cartItems.length} color="primary" className={classes.badge}>
                             <LocalMallOutlinedIcon />
                           </Badge>
                         </IconButton>
@@ -308,7 +308,7 @@ export default function Header(){
                           open={openCart}
                           onClose={handleClose}
                         >
-                          {addedItem}
+                          Added Items 
                           <MenuItem onClick={handleClose}>View Cart</MenuItem>
                         </Menu>
                       </Grid>

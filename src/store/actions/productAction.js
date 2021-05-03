@@ -56,10 +56,17 @@ export const getProducts = () => async (dispatch) => {
 
 // Product Details Action
 export const getProductDetails = (productId) => async (dispatch) => {
-    dispatch({ type: REQUEST_SELECTED_PRODUCT, payload: productId })
+    dispatch({ type: REQUEST_SELECTED_PRODUCT })
     try{
         const { data } = await api.productDetails(productId);
-        dispatch({ type: GET_SELECTED_PRODUCT, payload: data })
+        if(data){
+            dispatch({ type: GET_SELECTED_PRODUCT, payload: data })
+        }else{
+            dispatch({ 
+                type: SELECTED_PRODUCT_FAIL, 
+                payload: data,
+            })
+        }
     }
     catch(error){
         dispatch({ 

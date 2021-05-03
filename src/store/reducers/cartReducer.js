@@ -1,22 +1,31 @@
+import { 
+    ADD_TO_CART,
+
+} from '../../constants/actionTypes.js';
 
 const initial = {
-    products: [],
-    cart: [],
+    cartItems: [],
     total: 0,
 };
 
-const CartReducer = (state=initial, action)=>{
+export const CartReducer = (state=initial, action)=>{
     switch(action.type){
-        case 'ADD_TO_CART':
-            let newItem = action.payload;
-            return {
-                ...state,
-                 cart: [...state.cart.concat(newItem)],
-                 total: state.total + 1,
-            };
-
+        case ADD_TO_CART:
+            const item = action.payload;
+            const isItemExist = state.cartItems.find(i => i.product === item.product);
+            if(isItemExist){
+                return{
+                    ...state,
+                    cartItems: state.cartItems.map(i => i.product === isItemExist.product ? item : i)
+                }
+            }else{
+                return {
+                    ...state,
+                    cartItems: [...state.cartItems, item],
+                     total: state.total + 1,
+                };
+            }
         default: 
             return state;
     }
 }
-export default CartReducer;
