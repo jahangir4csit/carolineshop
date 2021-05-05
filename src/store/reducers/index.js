@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import {CartReducer} from './cartReducer';
+import {CartReducer,getCartReducer} from './cartReducer';
 import {
     productsReducer, 
     productDetailsReducer, 
@@ -32,12 +32,13 @@ export const initialState = {
         isAuthenticated: false,
         userInfo: sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')) : null
     },
-    cart: {
-        cartItems: sessionStorage.getItem('cartItems') ? JSON.parse(sessionStorage.getItem('cartItems')) : []
-    }
+    // cart: {
+    //     cartItems: sessionStorage.getItem('cartItems') ? JSON.parse(sessionStorage.getItem('cartItems')) : []
+    // }
 }
 export const mainReducer = combineReducers({
     cart: CartReducer,
+    cartItems: getCartReducer,
     productList: productsReducer,
     productDetails: productDetailsReducer,
     newProduct: NewProductReducer,

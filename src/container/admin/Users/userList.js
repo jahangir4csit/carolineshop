@@ -86,6 +86,7 @@ export default function DataTable() {
     dispatch(deleteUser(id, token));
   }
 
+  console.log(users, 'get user')
   
   return (
     <Paper className={common.paper}>

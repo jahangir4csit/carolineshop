@@ -19,6 +19,7 @@ const Home = (props) => {
           dispatch(getProducts());
       }, [dispatch])
 
+
     return(
       <Fragment>
         {loading ? <Loader /> : (

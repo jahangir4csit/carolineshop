@@ -9,6 +9,7 @@ import Auth from '../components/Auth/Auth';
 import Slider from '../components/layout/Slider';
 import Breadcrumb from '../components/layout/Breadcrumb';
 import ProductDetails from '../container/Products/Product/ProductDetails';
+import CheckOut from '../components/Cart/CheckOut';
 import Page404 from '../container/404.jsx';
 
 export const PublicLayout = (props) => {
@@ -33,6 +34,10 @@ export const PublicLayout = (props) => {
                         <Auth />
                     </Route>
                     <Route exact path='/about' component={About} />
+                    <Route exact path='/checkout'>
+                        <Breadcrumb title="Checkout" />
+                        <CheckOut />
+                    </Route>
                     <Route exact path='/auth' component={Auth} />
                     <Route exact path='/contact' component={Contact} />
                     <Route path='*'>

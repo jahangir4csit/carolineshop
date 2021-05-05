@@ -66,8 +66,15 @@ export const loadUser = (token) => async (dispatch) => {
     try{
         dispatch({ type: LOAD_USER_REQUEST });
         const { data } = await axios.get(`${baseUrl}/my-detail/`, config(token));
-        dispatch({ type: LOAD_USER_SUCCESS, payload: data });
-        //history.push('/')
+        if(data.username){
+            dispatch({ type: LOAD_USER_SUCCESS, payload: data });
+        }else{
+            dispatch({ 
+                type: LOAD_USER_FAIL, 
+                payload: data.err 
+            })
+        }
+        
     }catch(error){
         dispatch({ 
             type: LOAD_USER_FAIL, 

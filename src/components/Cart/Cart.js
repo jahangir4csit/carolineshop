@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -18,8 +18,9 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-import {addItemToCart} from '../../store/actions/cartAction';
+import {getCartItemAction} from '../../store/actions/cartAction';
 import {createOrder} from '../../store/actions/orderAction';
+
 import useStyles from './styles'; 
 
 export default function Cart(){
@@ -27,15 +28,35 @@ export default function Cart(){
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const {cartItems} = useSelector(state => state.cart);
+    const [items, setItems] = useState();
+
+    const {cartItems} = useSelector((state) => state.cartItems);
     const { userInfo } = useSelector( state => state.auth );
+    const token = userInfo ? userInfo.userInfo.token : null;
+
+    useEffect(()=>{ 
+        dispatch(getCartItemAction(token));
+    },[]);
+
+    const rows = [];
+    if(cartItems.products){
+       cartItems.products.map((item) => (
+        rows.push(createRow(
+          item.productId.image,
+          item.productId.title,
+          item.quantity,
+          item.productId.price,
+          //item.productId.stock,
+        ))
+      ))
+    }
 
     const [shippingCharge, setSeshippingCharge] = React.useState('50');
     const handleRadioChange = (event) => {
         setSeshippingCharge(event.target.value);
     };
-    console.log(cartItems, 'items data')
-    const rows = cartItems.map((item)=> createRow(item.image, item.product, item.quantity,item.price))
+
+    //const rows = cartItems.products.map((item)=> createRow(item.image, item.product, item.quantity,item.price))
 
     function ccyFormat(num) {
         return `${num.toFixed(2)}`;
@@ -57,7 +78,7 @@ export default function Cart(){
     const invoiceSubtotal = subtotal(rows);
     const invoiceShipping = shippingCharge;
     const invoiceTotal = (Number(invoiceSubtotal) + Number(invoiceShipping)).toFixed(2);
-    const token = userInfo.userInfo.token;
+
     const ConfirmOrder = () =>{
         const data = {
             invoiceSubtotal,
@@ -65,10 +86,19 @@ export default function Cart(){
         }
         dispatch(createOrder(data, token));
     }
+
+    console.log(cartItems.products, 'items data');
         
     return(
         <Fragment>
-            {cartItems.length === 0 ? <Typography component="h3">Your Cart is Empty</Typography> : (
+                    {/* {cartItems.products ? cartItems.products.map(item => (
+             <p>{item.productId.title}</p>
+           )) : 'no data'} */}
+            {cartItems.length === 0 ? 
+              <Container className={classes.root} maxWidth="lg">
+                <Typography style={{ paddingTop: 30 }} align="center" component="h3" variant="body2">Your Cart is Empty</Typography> 
+              </Container>
+            : (
                 <Fragment>
                     <div className="product_details my60">
                         <Container className={classes.root} maxWidth="lg">
@@ -93,7 +123,7 @@ export default function Cart(){
                                                                 <TableCell>
                                                                     <Box display="flex" alignItems="center" justifyContent="flex-start">
                                                                         <Box>
-                                                                            <img style={{ marginRight: 10, borderRadius: 4}} width="60" src={`${baseUrl}${row.image}`} alt={row.product} />
+                                                                            <img style={{ marginRight: 10, borderRadius: 4}} height="60" width="60" src={`${baseUrl}${row.image}`} alt={row.product} />
                                                                         </Box>
                                                                         <Box>
                                                                             {row.product}

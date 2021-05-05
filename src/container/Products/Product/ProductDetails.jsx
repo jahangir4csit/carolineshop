@@ -35,6 +35,8 @@ const ProductDetails = () =>{
 
     const productDetails = useSelector((state)=> state.productDetails);
     const { loading, product, error } = productDetails;
+    const { userInfo } = useSelector( state => state.auth );
+    const token = userInfo ? userInfo.userInfo.token : null;
 
     useEffect(()=>{
         dispatch(getProductDetails(productId));
@@ -44,7 +46,12 @@ const ProductDetails = () =>{
       }, [dispatch, productId, error])
 
       const addToCart = () => {
-          dispatch(addItemToCart(productId, quantity));
+          dispatch(addItemToCart({
+              "product": {
+                  "id": productId,
+                  "quantity": quantity
+              }
+          },token));
           dispatch(setSnackbar(true,"success","Item Added to Cart"));
       }
         
