@@ -1,6 +1,6 @@
 
 <h3>Caroline</h3>
-Caroline is a simple e-commerce template made with react, react-router, redux, material-ui etc.
+Caroline is a simple e-commerce template made with react, react-router, redux, material-ui, Rest API etc.
 
 <h3>Run locally</h3>
 Clone and run fakecommerce locally. Caroline uses this open-source node app as a backend.
