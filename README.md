@@ -19,12 +19,15 @@ yarn start
 <img src="https://raw.githubusercontent.com/jahangir4csit/carolineshop/main/Product_list_1.jpg" alt="caroline">
 
 
-### `yarn start`
+### `Run App`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+At first clone the project.
+Run yarn or npm install to install all the dependencies
+The system will run on port: 3000. 
+Once installed, run yarn start or npm start
+
 
 
