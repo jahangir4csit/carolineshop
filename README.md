@@ -12,6 +12,8 @@ yarn start
 
 <h3>Screenshot</h3>
 <img src="https://raw.githubusercontent.com/jahangir4csit/carolineshop/main/screenshot.jpg" alt="caroline">
+<img src="https://raw.githubusercontent.com/jahangir4csit/carolineshop/main/Footer.jpg" alt="caroline">
+
 
 # Getting Started with Create React App
 
