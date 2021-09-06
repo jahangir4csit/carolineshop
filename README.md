@@ -14,6 +14,7 @@ yarn start
 <img src="https://raw.githubusercontent.com/jahangir4csit/carolineshop/main/screenshot.jpg" alt="caroline">
 <img src="https://raw.githubusercontent.com/jahangir4csit/carolineshop/main/Footer.jpg" alt="caroline">
 <img src="https://github.com/jahangir4csit/carolineshop/blob/main/Product_details.jpg" alt="caroline">
+<img src="https://raw.githubusercontent.com/jahangir4csit/carolineshop/main/Cart.jpg" alt="caroline">
 
 
 # Getting Started with Create React App
