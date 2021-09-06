@@ -1,8 +1,8 @@
 
-#Caroline
+<h3>Caroline</h3>
 Caroline is a simple e-commerce template made with react, react-router, redux, material-ui etc.
 
-#Run locally
+<h3>Run locally</h3>
 Clone and run fakecommerce locally. Caroline uses this open-source node app as a backend.
 Run these command
 git clone https://github.com/jahangir4csit/fcommerce.git
@@ -10,6 +10,7 @@ cd server
 yarn install
 yarn start
 
+<h3>Screenshot</h3>
 <img src="https://raw.githubusercontent.com/jahangir4csit/carolineshop/main/screenshot.jpg" alt="caroline">
 
 # Getting Started with Create React App
