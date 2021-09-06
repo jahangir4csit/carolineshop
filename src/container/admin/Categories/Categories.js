@@ -1,18 +1,17 @@
-import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Box from '@material-ui/core/Box';
-import Hidden from '@material-ui/core/Hidden';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
-import {Link} from "react-router-dom";
-import Button from '@material-ui/core/Button';
 import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from "react-router-dom";
+import { getCategories } from '../../../store/actions/categoryAction';
 import Sidebar from '../Layouts/Sidebar/Sidebar';
+import DataTable from './dataTable';
 import useStyles from './styles';
-import DataTable from './dataTable'; 
 
-import {getCategories} from '../../../store/actions/categoryAction';
 
 const Categories = () => {
     const classes = useStyles();

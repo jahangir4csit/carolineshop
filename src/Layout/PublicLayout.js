@@ -1,16 +1,17 @@
-import React, {Fragment} from 'react';
-import {Switch, Route } from "react-router-dom";
-import PublicHeader from '../components/layout/Header';
-import PublicFooter from '../components/layout/footer';
-import Products from '../container/Products/Products';
-import About from '../container/About.jsx';
-import Contact from '../container/Contact.jsx';
+import React, { Fragment } from 'react';
+import { Route, Switch } from "react-router-dom";
 import Auth from '../components/Auth/Auth';
-import Slider from '../components/layout/Slider';
-import Breadcrumb from '../components/layout/Breadcrumb';
-import ProductDetails from '../container/Products/Product/ProductDetails';
 import CheckOut from '../components/Cart/CheckOut';
+import Breadcrumb from '../components/layout/Breadcrumb';
+import PublicFooter from '../components/layout/footer';
+import PublicHeader from '../components/layout/Header';
+import Slider from '../components/layout/Slider';
 import Page404 from '../container/404.jsx';
+import About from '../container/About.jsx';
+import Categories from '../container/Categories';
+import Contact from '../container/Contact.jsx';
+import ProductDetails from '../container/Products/Product/ProductDetails';
+import Products from '../container/Products/Products';
 
 export const PublicLayout = (props) => {
     return(
@@ -24,6 +25,10 @@ export const PublicLayout = (props) => {
                     <Route exact path="/shop">
                         <Breadcrumb title="Product List" />
                         <Products />
+                    </Route>
+                    <Route exact path="/categories">
+                        <Breadcrumb title="Categories" />
+                        <Categories />
                     </Route>
                     <Route exact path="/products/:id">
                         <Breadcrumb title="Product Details" />

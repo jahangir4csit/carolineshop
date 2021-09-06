@@ -1,11 +1,14 @@
 import {
-    CREATE_ORDER_REQUEST,
-    CREATE_ORDER_SUCCESS, 
-    CREATE_ORDER_FAIL,
-
+    CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST,
+    CREATE_ORDER_SUCCESS
 } from '../../constants/actionTypes.js';
 
-export const newOrderReducer = (state = {}, action) => {
+const initial = {
+    order: [],
+    shippingDetails: {},
+};
+
+export const newOrderReducer = (state = initial, action) => {
 
     switch(action.type){
         case CREATE_ORDER_REQUEST:
@@ -16,6 +19,7 @@ export const newOrderReducer = (state = {}, action) => {
         case CREATE_ORDER_SUCCESS:
             return{
                 loading: false,
+                ...state,
                 order: action.payload
             }
         case CREATE_ORDER_FAIL:

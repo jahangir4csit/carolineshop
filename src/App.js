@@ -1,22 +1,21 @@
-import React, {useEffect} from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { ThemeProvider } from '@material-ui/core/styles';
-import theme from './components/ui/Theme';
-import {PublicLayout} from './Layout/PublicLayout';
-import {ProtectedLayout} from './Layout/ProtectedLayout';
-import {AdminLayout} from './Layout/AdminLayout';
-import Snackbar from './components/ui/Snackbar';
-import {loadUser} from './store/actions/authAction';
-
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import './App.css';
+import Snackbar from './components/ui/Snackbar';
+import theme from './components/ui/Theme';
+import { AdminLayout } from './Layout/AdminLayout';
+import { ProtectedLayout } from './Layout/ProtectedLayout';
+import { PublicLayout } from './Layout/PublicLayout';
+import { loadUser } from './store/actions/authAction';
+
 //import useStyles from './styles'; 
 
 function App() {
 
   const dispatch = useDispatch();
   const { userInfo } = useSelector( state => state.auth );
-  const { user } = useSelector( state => state.loadUser );
   useEffect(()=>{
     const token = userInfo ? userInfo.userInfo.token : '';
     dispatch(loadUser(token));

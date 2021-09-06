@@ -19,7 +19,10 @@ body {
   letter-spacing: .01em;
   line-height: 1.5;
 }
-
+p{
+  font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-size: 1.1em;
+}
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   margin-bottom: .5rem;
@@ -269,6 +272,10 @@ a i {
 }
 .color-danger{
   color: #c0392b!important;
+}
+
+.categories table tr th{
+  text-align: center;
 }
 /* Section Style ========= */
 

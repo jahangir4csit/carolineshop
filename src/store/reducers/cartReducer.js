@@ -1,10 +1,6 @@
-import { 
-    ADD_TO_CART,
-    GET_CART_REQUEST,
-    GET_CART_SUCCESS,
-    GET_CART_FAIL,
-    SAVE_SHIPPING_DETAILS
-
+import {
+    ADD_TO_CART, GET_CART_FAIL, GET_CART_REQUEST,
+    GET_CART_SUCCESS, SAVE_SHIPPING_DETAILS
 } from '../../constants/actionTypes.js';
 
 const initial = {

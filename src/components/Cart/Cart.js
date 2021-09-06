@@ -1,27 +1,25 @@
-import React, {Fragment, useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-
-import {getCartItemAction} from '../../store/actions/cartAction';
-import {createOrder} from '../../store/actions/orderAction';
-
-import useStyles from './styles'; 
+import Typography from '@material-ui/core/Typography';
+import React, { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCartItemAction } from '../../store/actions/cartAction';
+import { createOrder } from '../../store/actions/orderAction';
+import useStyles from './styles';
+//hello 
 
 export default function Cart(){
     const baseUrl = 'http://localhost:8080';
@@ -33,6 +31,8 @@ export default function Cart(){
     const {cartItems} = useSelector((state) => state.cartItems);
     const { userInfo } = useSelector( state => state.auth );
     const token = userInfo ? userInfo.userInfo.token : null;
+
+    //console.log(user._id, 'User Id');
 
     useEffect(()=>{ 
         dispatch(getCartItemAction(token));
@@ -79,15 +79,18 @@ export default function Cart(){
     const invoiceShipping = shippingCharge;
     const invoiceTotal = (Number(invoiceSubtotal) + Number(invoiceShipping)).toFixed(2);
 
+
     const ConfirmOrder = () =>{
         const data = {
-            invoiceSubtotal,
-            invoiceTotal
+            cartItems
+            // userId: cartItems.userId,
+            // date: cartItems.date,
+            // products: cartItems.products,
+            // status: cartItems.status
         }
         dispatch(createOrder(data, token));
     }
 
-    console.log(cartItems.products, 'items data');
         
     return(
         <Fragment>

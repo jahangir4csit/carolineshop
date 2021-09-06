@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { fade, lighten, makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -38,6 +39,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
 import { setSnackbar } from "../../../store/reducers/snackbarReducer";
 import Hidden from '@material-ui/core/Hidden';
+import Loader from '../components/ui/loader'
 import commonStyles from '../commonStyle'; 
 import useStyles from './styles'; 
 
@@ -46,10 +48,11 @@ const Products = () => {
     const common = commonStyles();
     const history = useHistory();
     const baseUrl = 'http://localhost:8080';
-    const { loading, products, error } = useSelector((state)=> state.productList);
+    const {loading, products, error } = useSelector((state)=> state.productList);
     const { isDeleted } = useSelector((state)=> state.deleteProduct);
     const { userInfo } = useSelector( state => state.auth );
     const token = userInfo.userInfo.token;
+
 
     // Get Products
     const dispatch = useDispatch();
@@ -60,6 +63,7 @@ const Products = () => {
           history.push('/admin/products');
         }
     }, [dispatch, isDeleted, history])
+    
 
 function createData(productImg, product, created, status, price, action) {
     return { productImg, product, created, status, price, action };
@@ -354,6 +358,7 @@ function createData(productImg, product, created, status, price, action) {
           </Hidden>
           <main className={classes.content}>
             <div className="appbarspace" />
+            {loading ? <Loader /> : (
               <Container maxWidth="lg">
                   <Grid container direction="column" spacing="3">
                     <Grid item xs={12}>
@@ -451,6 +456,7 @@ function createData(productImg, product, created, status, price, action) {
                     </Grid>
                 </Grid>
               </Container>
+            )}
           </main>
         </div>
     )

@@ -1,13 +1,7 @@
 import axios from 'axios';
-import {
-    CREATE_ORDER_REQUEST,
-    CREATE_ORDER_SUCCESS, 
-    CREATE_ORDER_FAIL,
-
-} from '../../constants/actionTypes.js';
+import { CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS } from '../../constants/actionTypes.js';
 
 const baseUrl = 'http://localhost:8080';
-
 const config = (token) => {
     return(
         {
@@ -20,11 +14,11 @@ const config = (token) => {
     )
 }
 
-export const createOrder = (order, token) => async (dispatch, getState) => {
+export const createOrder = (order, token) => async (dispatch) => {
+    
+    dispatch({type: CREATE_ORDER_REQUEST})
     try {
-        dispatch({type: CREATE_ORDER_REQUEST})
-        const { data } = await axios.post(`${baseUrl}/order/checkout`, order, config(token));
-        console.log(data, 'order place');
+        const { data } = await axios.get(`${baseUrl}/order/checkout`, config(token));
         dispatch({
             type: CREATE_ORDER_SUCCESS,
             payload: data
@@ -34,8 +28,10 @@ export const createOrder = (order, token) => async (dispatch, getState) => {
         dispatch({
             type: CREATE_ORDER_FAIL,
             payload: error.response.data.message
-        })
+        });
+        console.log('Error Order!');
     }
+
 }
 
 

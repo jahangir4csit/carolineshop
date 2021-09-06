@@ -1,13 +1,12 @@
-import React, {Fragment} from 'react';
-import {Switch, Route } from "react-router-dom";
-import NotFound from '../container/404.jsx';
-import ProtectedRoute from '../components/route/ProtectedRoute';
-
-import Breadcrumb from '../components/layout/Breadcrumb';
+import React, { Fragment } from 'react';
+import { Route, Switch } from "react-router-dom";
 import Cart from '../components/Cart/Cart';
-import PublicHeader from '../components/layout/Header';
+import Checkout from '../components/Cart/CheckOut';
 import PublicFooter from '../components/layout/footer';
-import UserDetails from '../container/admin/Users/User/userDetails';
+import PublicHeader from '../components/layout/Header';
+import ProtectedRoute from '../components/route/ProtectedRoute';
+import NotFound from '../container/404.jsx';
+
 
 export const ProtectedLayout = (props) => {
     return(
@@ -15,6 +14,7 @@ export const ProtectedLayout = (props) => {
             <PublicHeader/>
                 <Switch>
                     <ProtectedRoute exact path="/cart" component={Cart} />
+                    <ProtectedRoute exact path="/order/checkout" component={Checkout} />
                     {/* <ProtectedRoute exact path="/cart">
                         <Breadcrumb title="Cart" />
                         <Cart />
